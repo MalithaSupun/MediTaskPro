@@ -5,14 +5,38 @@ import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import ScreenContainer from '../../components/ScreenContainer';
+import SegmentedControl from '../../components/SegmentedControl';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { MainTabParamList, RootStackParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectCurrentUser, selectSessionState, selectTaskMetrics, selectTasksState } from '../../store/selectors';
+import { setThemeMode, type ThemeMode } from '../../store/preferencesSlice';
+import {
+  selectCurrentUser,
+  selectPreferencesState,
+  selectSessionState,
+  selectTaskMetrics,
+  selectTasksState,
+} from '../../store/selectors';
 import { signOutSession, updateSessionName } from '../../store/sessionSlice';
 import { clearAllTasksData, refreshTasks } from '../../store/tasksSlice';
 import { formatSyncTime } from '../../utils/dateTime';
 import { showToast } from '../../utils/toast';
+
+type ThemeOption = 'System' | 'Light' | 'Dark';
+
+const THEME_OPTIONS: readonly ThemeOption[] = ['System', 'Light', 'Dark'];
+
+const THEME_OPTION_TO_MODE: Record<ThemeOption, ThemeMode> = {
+  System: 'system',
+  Light: 'light',
+  Dark: 'dark',
+};
+
+const THEME_MODE_TO_OPTION: Record<ThemeMode, ThemeOption> = {
+  system: 'System',
+  light: 'Light',
+  dark: 'Dark',
+};
 
 const ProfileScreen = () => {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList, 'Profile'>>();
@@ -20,6 +44,7 @@ const ProfileScreen = () => {
   const { appTheme } = useAppTheme();
 
   const { queue, lastSyncedAt, refreshing, isOffline } = useAppSelector(selectTasksState);
+  const { themeMode, saving: savingPreferences } = useAppSelector(selectPreferencesState);
   const { totalCount, completedCount } = useAppSelector(selectTaskMetrics);
   const currentUser = useAppSelector(selectCurrentUser);
   const { saving } = useAppSelector(selectSessionState);
@@ -34,10 +59,8 @@ const ProfileScreen = () => {
     setDraftName(displayName);
   }, [displayName]);
 
-  const avatarInitial = useMemo(
-    () => displayName.trim().charAt(0).toUpperCase() || 'M',
-    [displayName],
-  );
+  const avatarInitial = useMemo(() => displayName.trim().charAt(0).toUpperCase() || 'M', [displayName]);
+  const selectedThemeOption = THEME_MODE_TO_OPTION[themeMode];
 
   const handleManualSync = async () => {
     const resultAction = await dispatch(refreshTasks());
@@ -53,6 +76,23 @@ const ProfileScreen = () => {
     }
 
     showToast('Sync completed.');
+  };
+
+  const handleThemeModeChange = async (option: ThemeOption) => {
+    const nextThemeMode = THEME_OPTION_TO_MODE[option];
+
+    if (nextThemeMode === themeMode) {
+      return;
+    }
+
+    const resultAction = await dispatch(setThemeMode(nextThemeMode));
+
+    if (setThemeMode.rejected.match(resultAction)) {
+      showToast(resultAction.payload ?? 'Unable to update theme preference.');
+      return;
+    }
+
+    showToast(`Theme set to ${option}.`);
   };
 
   const handleSaveName = async () => {
@@ -104,6 +144,12 @@ const ProfileScreen = () => {
     });
   };
 
+  const handleThemeModePress = (option: ThemeOption) => {
+    handleThemeModeChange(option).catch(() => {
+      showToast('Unable to update theme preference.');
+    });
+  };
+
   const handleConfirmSignOut = () => {
     performSignOut().catch(() => {
       showToast('Sign out failed. Please try again.');
@@ -131,7 +177,7 @@ const ProfileScreen = () => {
 
   return (
     <ScreenContainer>
-      <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}>
+      <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
         <View
           style={[
             styles.profileHero,
@@ -233,11 +279,7 @@ const ProfileScreen = () => {
                     },
                   ]}
                 >
-                  {saving ? (
-                    <ActivityIndicator color="#FFFFFF" />
-                  ) : (
-                    <Text style={styles.primaryActionText}>Save name</Text>
-                  )}
+                  {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryActionText}>Save name</Text>}
                 </Pressable>
               </>
             ) : (
@@ -255,6 +297,26 @@ const ProfileScreen = () => {
                 <Text style={[styles.inlineEditText, { color: appTheme.colors.textPrimary }]}>Edit name</Text>
               </Pressable>
             )}
+          </View>
+        </View>
+
+        <View
+          style={[
+            styles.card,
+            {
+              borderRadius: appTheme.radius.lg,
+              borderColor: appTheme.colors.border,
+              backgroundColor: appTheme.colors.card,
+            },
+          ]}
+        >
+          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>Appearance</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Theme mode</Text>
+          <SegmentedControl options={THEME_OPTIONS} value={selectedThemeOption} onChange={handleThemeModePress} />
+
+          <View style={styles.themeStatusRow}>
+            <Text style={[styles.themeStatusText, { color: appTheme.colors.textSecondary }]}>Current mode: {selectedThemeOption}</Text>
+            {savingPreferences ? <ActivityIndicator size="small" color={appTheme.colors.primary} /> : null}
           </View>
         </View>
 
@@ -308,11 +370,7 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          {refreshing ? (
-            <ActivityIndicator color="#FFFFFF" />
-          ) : (
-            <Text style={styles.syncButtonText}>Sync now</Text>
-          )}
+          {refreshing ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.syncButtonText}>Sync now</Text>}
         </Pressable>
 
         <Pressable
@@ -439,6 +497,16 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 18,
     fontWeight: '800',
+  },
+  themeStatusRow: {
+    marginTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  themeStatusText: {
+    fontSize: 13,
+    fontWeight: '600',
   },
   syncValue: {
     marginTop: 4,

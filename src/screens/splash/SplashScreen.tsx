@@ -6,6 +6,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
 import { useAppDispatch } from '../../store/hooks';
+import { hydratePreferences } from '../../store/preferencesSlice';
 import { hydrateSession } from '../../store/sessionSlice';
 
 const SplashScreen = () => {
@@ -18,7 +19,10 @@ const SplashScreen = () => {
 
     const initializeApp = async () => {
       const startedAt = Date.now();
-      const resultAction = await dispatch(hydrateSession());
+      const [sessionResultAction] = await Promise.all([
+        dispatch(hydrateSession()),
+        dispatch(hydratePreferences()),
+      ]);
       const elapsed = Date.now() - startedAt;
       const minimumSplashDurationMs = 1400;
 
@@ -34,7 +38,7 @@ const SplashScreen = () => {
         return;
       }
 
-      if (hydrateSession.fulfilled.match(resultAction) && resultAction.payload) {
+      if (hydrateSession.fulfilled.match(sessionResultAction) && sessionResultAction.payload) {
         navigation.replace('Main');
         return;
       }

@@ -3,4 +3,5 @@ export const STORAGE_KEYS = {
   TASK_SYNC_QUEUE: '@meditaskpro/tasks-sync-queue',
   TASK_LAST_SYNCED_AT: '@meditaskpro/tasks-last-synced-at',
   USER_SESSION: '@meditaskpro/user-session',
+  THEME_MODE: '@meditaskpro/theme-mode',
 } as const;

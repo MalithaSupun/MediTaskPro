@@ -1,5 +1,6 @@
 import { configureStore, isRejectedWithValue, type Middleware } from '@reduxjs/toolkit';
 
+import preferencesReducer from './preferencesSlice';
 import sessionReducer from './sessionSlice';
 import tasksReducer from './tasksSlice';
 
@@ -17,6 +18,7 @@ const globalErrorHandlingMiddleware: Middleware = () => next => action => {
 
 export const store = configureStore({
   reducer: {
+    preferences: preferencesReducer,
     session: sessionReducer,
     tasks: tasksReducer,
   },

@@ -1,97 +1,184 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# MediTask Pro
 
-# Getting Started
+Production-ready React Native task management app built for medical professionals with offline resilience, priority workflows, analytics, and reliable backend synchronization.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Assessment Alignment
 
-## Step 1: Start Metro
+This repository implements the **Software Engineer (Mobile Frontend) practical exam** scope for Delivergate.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+Delivered core requirements:
+- Task CRUD (`GET/POST/PUT/DELETE`) with MockAPI backend
+- Priority and status management (`Low/Medium/High`, `Pending/Completed`)
+- Search, status filter, pull-to-refresh, swipe-to-delete
+- Daily dashboard summary and progress indicators
+- Analytics view for completion and workload distribution
+- Offline-safe queue with auto-sync and manual sync trigger
+- Network/error states with retry and toast feedback
+- Centralized light/dark/system theming from Profile settings
+- TypeScript strict mode + lint + tests + CI Android artifact pipeline
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## Tech Stack
 
-```sh
-# Using npm
+- React Native CLI + TypeScript (strict mode)
+- Redux Toolkit for global state and async flows
+- Axios for API layer
+- React Navigation (native stack + bottom tabs)
+- React Hook Form + Yup for task validation
+- AsyncStorage for local persistence (session, cache, sync queue, theme)
+
+## API
+
+Base URL:
+
+`https://60a21a08745cd70017576014.mockapi.io/api/v1`
+
+Endpoints used:
+- `GET /todo`
+- `GET /todo/:id`
+- `POST /todo`
+- `PUT /todo/:id`
+- `DELETE /todo/:id`
+
+## Project Structure
+
+```text
+src/
+├── api/
+├── components/
+├── constants/
+├── hooks/
+├── navigation/
+├── screens/
+├── store/
+├── theme/
+├── types/
+└── utils/
+```
+
+## Setup and Run
+
+### Prerequisites
+
+- Node.js `>= 22.11.0`
+- Java 17 (Android builds)
+- Android Studio + SDK
+- Xcode + CocoaPods (for iOS)
+
+### Install
+
+```bash
+npm install
+```
+
+### Start Metro
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+### Run Android
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+```bash
 npm run android
-
-# OR using Yarn
-yarn android
 ```
 
-### iOS
+### Run iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
+```bash
 bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
 bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Scripts
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+npm run lint
+npm run typecheck
+npm test -- --runInBand
+npm run build:android:debug
+```
 
-## Step 3: Modify your app
+## Theme Settings
 
-Now that you have successfully run the app, let's make changes!
+Theme is configurable from `Profile > Appearance`:
+- `System`
+- `Light`
+- `Dark`
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+Preference is persisted locally and applied immediately without app restart.
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## Offline and Sync Behavior
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+- Create/update/delete operations are queued when network is unavailable.
+- Cached tasks are displayed in offline mode.
+- Queue is flushed on refresh/reconnect.
+- Sync metadata is shown in Profile and Analytics.
 
-## Congratulations! :tada:
+## CI/CD
 
-You've successfully run and modified your React Native App. :partying_face:
+Workflow file:
 
-### Now what?
+`.github/workflows/mobile-ci.yml`
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+Pipeline steps:
+- Install dependencies
+- Run lint
+- Run TypeScript type check
+- Run tests
+- Build Android debug APK
+- Upload artifact (`app-debug.apk`)
 
-# Troubleshooting
+## Build and Release Notes
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+### Android (implemented now)
 
-# Learn More
+Debug artifact:
 
-To learn more about React Native, take a look at the following resources:
+```bash
+npm run build:android:debug
+```
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Output:
+
+`android/app/build/outputs/apk/debug/app-debug.apk`
+
+Signed release process can be added with keystore secrets for Play Internal Testing or Firebase App Distribution.
+
+### iOS (optional in this assessment)
+
+Build and archive with Xcode, then distribute via TestFlight.
+
+## Versioning
+
+Semantic versioning is used.
+
+Current version: `v1.0.0`
+
+## Branch Strategy
+
+Recommended:
+- `main` for stable releases
+- `develop` for integration
+- `feature/*` for isolated work
+
+## Documentation
+
+- Design document: [`docs/DESIGN_DOCUMENT.md`](docs/DESIGN_DOCUMENT.md)
+- Low-fidelity wireframes: [`docs/LOW_FIDELITY_WIREFRAMES.md`](docs/LOW_FIDELITY_WIREFRAMES.md)
+- Demo checklist: [`docs/DEMO_CHECKLIST.md`](docs/DEMO_CHECKLIST.md)
+- Screen plan: [`docs/SCREEN_PLAN.md`](docs/SCREEN_PLAN.md)
+
+High-fidelity Figma/board link:
+
+- [MediTask Pro Screen Wireframe Flow](https://www.figma.com/online-whiteboard/create-diagram/6d339ba3-79fa-4904-9810-7df4211289e5?utm_source=other&utm_content=edit_in_figjam&oai_id=&request_id=bfc70d8b-d214-48e9-8b15-ae8c47d9cd2d)
+
+## Notes for Final Submission Package
+
+For submission email, include:
+- GitHub repository link
+- Figma link
+- APK file
+- Demo video
+- Design document PDF export (from `docs/DESIGN_DOCUMENT.md`)
+- CV

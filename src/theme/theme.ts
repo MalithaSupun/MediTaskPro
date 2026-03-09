@@ -5,6 +5,8 @@ import {
 } from '@react-navigation/native';
 import type { ColorSchemeName } from 'react-native';
 
+import type { ThemeMode } from '../store/preferencesSlice';
+
 export interface AppTheme {
   isDark: boolean;
   colors: {
@@ -98,7 +100,19 @@ const darkTheme: AppTheme = {
   },
 };
 
-export function getAppTheme(colorScheme: ColorSchemeName): AppTheme {
+export function resolveThemeScheme(colorScheme: ColorSchemeName, themeMode: ThemeMode): 'light' | 'dark' {
+  if (themeMode === 'light') {
+    return 'light';
+  }
+
+  if (themeMode === 'dark') {
+    return 'dark';
+  }
+
+  return colorScheme === 'dark' ? 'dark' : 'light';
+}
+
+export function getAppTheme(colorScheme: 'light' | 'dark'): AppTheme {
   return colorScheme === 'dark' ? darkTheme : lightTheme;
 }
 

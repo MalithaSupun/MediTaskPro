@@ -1,17 +1,22 @@
 import { useMemo } from 'react';
 import { useColorScheme } from 'react-native';
 
-import { getAppTheme, getNavigationTheme } from '../theme/theme';
+import { useAppSelector } from '../store/hooks';
+import { selectThemeMode } from '../store/selectors';
+import { getAppTheme, getNavigationTheme, resolveThemeScheme } from '../theme/theme';
 
 export function useAppTheme() {
   const colorScheme = useColorScheme();
+  const themeMode = useAppSelector(selectThemeMode);
 
   return useMemo(() => {
-    const appTheme = getAppTheme(colorScheme);
+    const resolvedScheme = resolveThemeScheme(colorScheme, themeMode);
+    const appTheme = getAppTheme(resolvedScheme);
 
     return {
       appTheme,
       navigationTheme: getNavigationTheme(appTheme),
+      themeMode,
     };
-  }, [colorScheme]);
+  }, [colorScheme, themeMode]);
 }
