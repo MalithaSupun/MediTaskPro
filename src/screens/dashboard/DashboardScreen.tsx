@@ -11,7 +11,7 @@ import StatusBadge from '../../components/StatusBadge';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { MainTabParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectTaskMetrics, selectTasksState, selectTodayTasks } from '../../store/selectors';
+import { selectCurrentUser, selectTaskMetrics, selectTasksState, selectTodayTasks } from '../../store/selectors';
 import { initializeTasks } from '../../store/tasksSlice';
 import { getGreetingByTime } from '../../utils/dateTime';
 
@@ -23,6 +23,7 @@ const DashboardScreen = () => {
   const taskMetrics = useAppSelector(selectTaskMetrics);
   const todayTasks = useAppSelector(selectTodayTasks);
   const { loading, initialized, isOffline, queue } = useAppSelector(selectTasksState);
+  const currentUser = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
     if (!initialized) {
@@ -30,7 +31,10 @@ const DashboardScreen = () => {
     }
   }, [dispatch, initialized]);
 
-  const greeting = useMemo(() => `${getGreetingByTime(new Date())}, Dr. Nimal`, []);
+  const greeting = useMemo(() => {
+    const displayName = currentUser?.fullName ?? 'Medical Professional';
+    return `${getGreetingByTime(new Date())}, ${displayName}`;
+  }, [currentUser?.fullName]);
 
   if (loading && !initialized) {
     return (

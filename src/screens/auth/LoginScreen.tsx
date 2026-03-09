@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import {
   useNavigation,
   type CompositeNavigationProp,
@@ -8,6 +8,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { AuthStackParamList, RootStackParamList } from '../../navigation/types';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectSessionState } from '../../store/selectors';
+import { startSession } from '../../store/sessionSlice';
 import { showToast } from '../../utils/toast';
 
 type LoginNavigation = CompositeNavigationProp<
@@ -17,14 +20,27 @@ type LoginNavigation = CompositeNavigationProp<
 
 const LoginScreen = () => {
   const navigation = useNavigation<LoginNavigation>();
+  const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { saving } = useAppSelector(selectSessionState);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
       showToast('Please enter email and password.');
+      return;
+    }
+
+    const resultAction = await dispatch(
+      startSession({
+        email,
+      }),
+    );
+
+    if (startSession.rejected.match(resultAction)) {
+      showToast(resultAction.payload ?? 'Unable to sign in. Please try again.');
       return;
     }
 
@@ -79,17 +95,18 @@ const LoginScreen = () => {
       />
 
       <Pressable
+        disabled={saving}
         onPress={handleLogin}
         style={({ pressed }) => [
           styles.button,
           {
             borderRadius: appTheme.radius.pill,
             backgroundColor: appTheme.colors.primary,
-            opacity: pressed ? 0.85 : 1,
+            opacity: pressed || saving ? 0.85 : 1,
           },
         ]}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>Login</Text>}
       </Pressable>
 
       <Pressable onPress={() => navigation.navigate('Signup')} style={styles.linkContainer}>

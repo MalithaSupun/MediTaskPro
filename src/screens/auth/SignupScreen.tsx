@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import {
   useNavigation,
   type CompositeNavigationProp,
@@ -8,6 +8,9 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { AuthStackParamList, RootStackParamList } from '../../navigation/types';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectSessionState } from '../../store/selectors';
+import { startSession } from '../../store/sessionSlice';
 import { showToast } from '../../utils/toast';
 
 type SignupNavigation = CompositeNavigationProp<
@@ -17,15 +20,29 @@ type SignupNavigation = CompositeNavigationProp<
 
 const SignupScreen = () => {
   const navigation = useNavigation<SignupNavigation>();
+  const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { saving } = useAppSelector(selectSessionState);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!fullName.trim() || !email.trim() || !password.trim()) {
       showToast('Please fill all fields.');
+      return;
+    }
+
+    const resultAction = await dispatch(
+      startSession({
+        fullName,
+        email,
+      }),
+    );
+
+    if (startSession.rejected.match(resultAction)) {
+      showToast(resultAction.payload ?? 'Unable to create account right now.');
       return;
     }
 
@@ -96,17 +113,18 @@ const SignupScreen = () => {
       />
 
       <Pressable
+        disabled={saving}
         onPress={handleSignup}
         style={({ pressed }) => [
           styles.button,
           {
             borderRadius: appTheme.radius.pill,
             backgroundColor: appTheme.colors.primary,
-            opacity: pressed ? 0.85 : 1,
+            opacity: pressed || saving ? 0.85 : 1,
           },
         ]}
       >
-        <Text style={styles.buttonText}>Create Account</Text>
+        {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>Create Account</Text>}
       </Pressable>
     </View>
   );

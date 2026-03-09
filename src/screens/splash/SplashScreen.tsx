@@ -5,18 +5,53 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
+import { useAppDispatch } from '../../store/hooks';
+import { hydrateSession } from '../../store/sessionSlice';
 
 const SplashScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Splash'>>();
+  const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      navigation.replace('Onboarding');
-    }, 1600);
+    let isMounted = true;
 
-    return () => clearTimeout(timerId);
-  }, [navigation]);
+    const initializeApp = async () => {
+      const startedAt = Date.now();
+      const resultAction = await dispatch(hydrateSession());
+      const elapsed = Date.now() - startedAt;
+      const minimumSplashDurationMs = 1400;
+
+      if (elapsed < minimumSplashDurationMs) {
+        await new Promise<void>(resolve => {
+          setTimeout(() => {
+            resolve();
+          }, minimumSplashDurationMs - elapsed);
+        });
+      }
+
+      if (!isMounted) {
+        return;
+      }
+
+      if (hydrateSession.fulfilled.match(resultAction) && resultAction.payload) {
+        navigation.replace('Main');
+        return;
+      }
+
+      navigation.replace('Onboarding');
+    };
+
+    initializeApp().catch(() => {
+      if (isMounted) {
+        navigation.replace('Onboarding');
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, navigation]);
 
   return (
     <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 

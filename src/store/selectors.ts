@@ -4,6 +4,9 @@ import type { RootState } from './index';
 import { isSameLocalDay } from '../utils/dateTime';
 import type { Task, TaskFilter } from '../types/task';
 
+export const selectSessionState = (state: RootState) => state.session;
+export const selectCurrentUser = createSelector(selectSessionState, sessionState => sessionState.user);
+
 export const selectTasksState = (state: RootState) => state.tasks;
 
 export const selectAllTasks = createSelector(selectTasksState, tasksState => tasksState.tasks);

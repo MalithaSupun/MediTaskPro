@@ -64,6 +64,19 @@ const initialState: TasksState = {
   isOffline: false,
 };
 
+function resetTasksSliceState(state: TasksState): void {
+  state.tasks = [];
+  state.queue = [];
+  state.lastSyncedAt = null;
+  state.loading = false;
+  state.refreshing = false;
+  state.mutating = false;
+  state.initialized = false;
+  state.error = null;
+  state.infoMessage = null;
+  state.isOffline = false;
+}
+
 function sortTasks(tasks: Task[]): Task[] {
   return [...tasks].sort((firstTask, secondTask) => {
     const firstTimestamp = Date.parse(firstTask.updatedAt || firstTask.createdAt);
@@ -459,6 +472,22 @@ export const refreshTasks = createAsyncThunk<TasksSyncPayload, void, { state: Sl
   },
 );
 
+export const clearAllTasksData = createAsyncThunk<void, void, { rejectValue: string }>(
+  'tasks/clearAllData',
+  async (_, { rejectWithValue }) => {
+    try {
+      await Promise.all([
+        AsyncStorage.removeItem(STORAGE_KEYS.TASK_CACHE),
+        AsyncStorage.removeItem(STORAGE_KEYS.TASK_SYNC_QUEUE),
+        AsyncStorage.removeItem(STORAGE_KEYS.TASK_LAST_SYNCED_AT),
+      ]);
+      return;
+    } catch {
+      return rejectWithValue('Unable to clear local task data.');
+    }
+  },
+);
+
 export const createTask = createAsyncThunk<TasksSyncPayload, CreateTaskArgs, { state: SliceThunkState; rejectValue: string }>(
   'tasks/create',
   async (args, { getState, rejectWithValue }) => {
@@ -677,6 +706,17 @@ const tasksSlice = createSlice({
       .addCase(refreshTasks.rejected, (state, action) => {
         state.refreshing = false;
         state.error = action.payload ?? action.error.message ?? 'Failed to refresh tasks';
+      })
+      .addCase(clearAllTasksData.pending, state => {
+        state.mutating = true;
+        state.error = null;
+      })
+      .addCase(clearAllTasksData.fulfilled, state => {
+        resetTasksSliceState(state);
+      })
+      .addCase(clearAllTasksData.rejected, (state, action) => {
+        state.mutating = false;
+        state.error = action.payload ?? action.error.message ?? 'Failed to clear local task data';
       })
       .addCase(createTask.pending, state => {
         state.mutating = true;
