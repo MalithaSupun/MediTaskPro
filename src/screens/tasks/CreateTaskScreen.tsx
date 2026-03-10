@@ -1,9 +1,10 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
+import BackArrowButton from '../../components/BackArrowButton';
 import ScreenContainer from '../../components/ScreenContainer';
 import TaskForm, { type TaskFormValues } from '../../components/TaskForm';
 import { useAppTheme } from '../../hooks/useAppTheme';
@@ -44,8 +45,16 @@ const CreateTaskScreen = () => {
 
   return (
     <ScreenContainer>
-      <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('tasks.create.title')}</Text>
+      <ScrollView
+        contentContainerStyle={[
+          styles.content,
+          { padding: appTheme.spacing.lg },
+        ]}
+      >
+        <View style={styles.headerRow}>
+          <BackArrowButton color={appTheme.colors.textPrimary} />
+          <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('tasks.create.title')}</Text>
+        </View>
         <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
           {t('tasks.create.subtitle')}
         </Text>
@@ -69,10 +78,15 @@ const styles = StyleSheet.create({
   content: {
     paddingBottom: 26,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
   title: {
     fontSize: 24,
     fontWeight: '800',
-    marginBottom: 6,
+    flexShrink: 1,
   },
   subtitle: {
     fontSize: 14,

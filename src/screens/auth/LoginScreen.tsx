@@ -7,6 +7,7 @@ import {
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
+import BackArrowButton from '../../components/BackArrowButton';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { AuthStackParamList, RootStackParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -57,8 +58,11 @@ const LoginScreen = () => {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 
-      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('auth.loginTitle')}</Text>
+    <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}>
+      <View style={styles.headerRow}>
+        <BackArrowButton color={appTheme.colors.textPrimary} />
+        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('auth.loginTitle')}</Text>
+      </View>
       <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('auth.loginSubtitle')}</Text>
 
       <TextInput
@@ -124,10 +128,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   title: {
     fontSize: 30,
     fontWeight: '800',
-    marginBottom: 8,
+    flexShrink: 1,
   },
   subtitle: {
     fontSize: 14,

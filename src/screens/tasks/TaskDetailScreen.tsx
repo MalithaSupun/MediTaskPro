@@ -4,6 +4,7 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
+import BackArrowButton from '../../components/BackArrowButton';
 import PriorityBadge from '../../components/PriorityBadge';
 import ScreenContainer from '../../components/ScreenContainer';
 import StatusBadge from '../../components/StatusBadge';
@@ -105,7 +106,16 @@ const TaskDetailScreen = () => {
 
   return (
     <ScreenContainer>
-      <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
+      <ScrollView
+        contentContainerStyle={[
+          styles.content,
+          { padding: appTheme.spacing.lg },
+        ]}
+      >
+        <View style={styles.headerRow}>
+          <BackArrowButton color={appTheme.colors.textPrimary} />
+          <Text style={[styles.headerTitle, { color: appTheme.colors.textPrimary }]}>{task.title}</Text>
+        </View>
         <View
           style={[
             styles.card,
@@ -120,8 +130,6 @@ const TaskDetailScreen = () => {
             <PriorityBadge priority={task.priority} />
             <StatusBadge status={task.status} />
           </View>
-
-          <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{task.title}</Text>
 
           <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>
             {t('common.labels.description')}
@@ -208,6 +216,16 @@ const styles = StyleSheet.create({
   content: {
     paddingBottom: 32,
   },
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 14,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    flexShrink: 1,
+  },
   card: {
     borderWidth: 1,
     padding: 18,
@@ -217,11 +235,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 14,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '800',
-    marginBottom: 16,
   },
   label: {
     fontSize: 12,
