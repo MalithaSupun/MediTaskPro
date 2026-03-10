@@ -5,4 +5,5 @@ export const STORAGE_KEYS = {
   USER_SESSION: '@meditaskpro/user-session',
   THEME_MODE: '@meditaskpro/theme-mode',
   APP_LANGUAGE: '@meditaskpro/app-language',
+  ONBOARDING_COMPLETED: '@meditaskpro/onboarding-completed',
 } as const;

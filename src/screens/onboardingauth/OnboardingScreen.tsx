@@ -1,96 +1,115 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useTranslation } from 'react-i18next';
 
+import { STORAGE_KEYS } from '../../constants/storage';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
+import { writeJsonValue } from '../../utils/storage';
 
 const OnboardingScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Onboarding'>>();
   const { appTheme } = useAppTheme();
   const { t } = useTranslation();
 
+  const handleGetStarted = async () => {
+    try {
+      await writeJsonValue(STORAGE_KEYS.ONBOARDING_COMPLETED, true);
+    } catch {
+      // If persisting fails, keep the flow moving and continue to auth.
+    }
+
+    navigation.replace('Auth');
+  };
+
   return (
-    <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 
+    <SafeAreaView style={[styles.container, { backgroundColor: appTheme.colors.background }]}>
       <View
         style={[
-          styles.heroCard,
+          styles.content,
           {
-            borderColor: appTheme.colors.border,
-            borderRadius: appTheme.radius.lg,
-            backgroundColor: appTheme.colors.card,
+            paddingHorizontal: appTheme.spacing.lg,
+            paddingTop: appTheme.spacing.xl,
+            paddingBottom: appTheme.spacing.lg,
           },
         ]}
       >
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('common.appName')}</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
-          {t('onboarding.subtitle')}
-        </Text>
+        <View style={styles.topSection}>
+          <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('common.appName')}</Text>
+          <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
+            {t('onboarding.subtitle')}
+          </Text>
 
-        <View style={styles.bulletList}>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
-            - {t('onboarding.bulletFast')}
-          </Text>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
-            - {t('onboarding.bulletOffline')}
-          </Text>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
-            - {t('onboarding.bulletAnalytics')}
-          </Text>
+          <View style={styles.bulletList}>
+            <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+              - {t('onboarding.bulletFast')}
+            </Text>
+            <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+              - {t('onboarding.bulletOffline')}
+            </Text>
+            <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+              - {t('onboarding.bulletAnalytics')}
+            </Text>
+          </View>
         </View>
 
-        <Pressable
-          onPress={() => navigation.replace('Auth')}
-          style={({ pressed }) => [
-            styles.ctaButton,
-            {
-              borderRadius: appTheme.radius.pill,
-              backgroundColor: appTheme.colors.primary,
-              opacity: pressed ? 0.86 : 1,
-            },
-          ]}
-        >
-          <Text style={styles.ctaLabel}>{t('common.actions.getStarted')}</Text>
-        </Pressable>
+        <View>
+          <Pressable
+            onPress={handleGetStarted}
+            style={({ pressed }) => [
+              styles.ctaButton,
+              {
+                borderRadius: appTheme.radius.pill,
+                backgroundColor: appTheme.colors.primary,
+                opacity: pressed ? 0.86 : 1,
+              },
+            ]}
+          >
+            <Text style={styles.ctaLabel}>{t('common.actions.getStarted')}</Text>
+          </Pressable>
+          <Text style={[styles.footerHint, { color: appTheme.colors.textSecondary }]}>
+            {t('splash.subtitle')}
+          </Text>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 18,
   },
-  heroCard: {
-    borderWidth: 1,
-    paddingHorizontal: 20,
-    paddingVertical: 24,
-    width: '100%',
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
   },
-  title: {
-    fontSize: 30,
-    fontWeight: '800',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    lineHeight: 20,
-    marginBottom: 14,
-  },
-  bulletList: {
-    marginBottom: 18,
+  topSection: {
     gap: 8,
   },
+  title: {
+    fontSize: 38,
+    fontWeight: '800',
+    marginBottom: 2,
+  },
+  subtitle: {
+    fontSize: 16,
+    lineHeight: 24,
+    marginBottom: 10,
+  },
+  bulletList: {
+    marginTop: 8,
+    gap: 10,
+  },
   bulletText: {
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 15,
+    lineHeight: 22,
   },
   ctaButton: {
+    width: '100%',
     minHeight: 48,
     alignItems: 'center',
     justifyContent: 'center',
@@ -99,6 +118,12 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '700',
+  },
+  footerHint: {
+    marginTop: 12,
+    textAlign: 'center',
+    fontSize: 13,
+    lineHeight: 18,
   },
 });
 

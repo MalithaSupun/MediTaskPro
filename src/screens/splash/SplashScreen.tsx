@@ -3,11 +3,13 @@ import { Animated, Easing, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+import { STORAGE_KEYS } from '../../constants/storage';
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
 import { useAppDispatch } from '../../store/hooks';
 import { hydratePreferences } from '../../store/preferencesSlice';
 import { hydrateSession } from '../../store/sessionSlice';
+import { readJsonValue } from '../../utils/storage';
 
 const SPLASH_MIN_DURATION_MS = 2200;
 
@@ -33,9 +35,10 @@ const SplashScreen = () => {
 
     const initializeApp = (async () => {
       const startedAt = Date.now();
-      const [sessionResultAction] = await Promise.all([
+      const [sessionResultAction, , onboardingCompleted] = await Promise.all([
         dispatch(hydrateSession()),
         dispatch(hydratePreferences()),
+        readJsonValue<boolean>(STORAGE_KEYS.ONBOARDING_COMPLETED, false),
       ]);
       const elapsed = Date.now() - startedAt;
       const remainingDelay = Math.max(0, SPLASH_MIN_DURATION_MS - elapsed);
@@ -55,7 +58,7 @@ const SplashScreen = () => {
         return 'Main';
       }
 
-      return 'Onboarding';
+      return onboardingCompleted ? 'Auth' : 'Onboarding';
     })();
 
     initializeApp
