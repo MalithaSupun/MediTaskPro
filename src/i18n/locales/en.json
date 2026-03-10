@@ -1,0 +1,258 @@
+{
+  "common": {
+    "appName": "MediTask Pro",
+    "actions": {
+      "add": "Add",
+      "getStarted": "Get Started",
+      "login": "Login",
+      "createAccount": "Create Account",
+      "saveTask": "Save Task",
+      "saveChanges": "Save Changes",
+      "saveName": "Save name",
+      "editName": "Edit name",
+      "editTask": "Edit Task",
+      "deleteTask": "Delete Task",
+      "syncNow": "Sync now",
+      "viewAll": "View all",
+      "goBack": "Go back",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "retry": "Retry",
+      "signOut": "Sign out",
+      "markAs": "Mark as {{status}}"
+    },
+    "labels": {
+      "title": "Title",
+      "description": "Description",
+      "dueDate": "Due date",
+      "priority": "Priority",
+      "created": "Created",
+      "lastUpdated": "Last updated",
+      "total": "Total",
+      "completed": "Completed",
+      "pending": "Pending",
+      "totalTasks": "Total tasks",
+      "completedTasks": "Completed tasks",
+      "pendingSyncChanges": "Pending sync changes",
+      "networkStatus": "Network status",
+      "lastSync": "Last sync",
+      "displayName": "Display name",
+      "themeMode": "Theme mode",
+      "currentMode": "Current mode",
+      "language": "Language",
+      "lastSynced": "Last synced"
+    },
+    "placeholders": {
+      "searchTasks": "Search title or description",
+      "titleExample": "Patient report follow-up",
+      "descriptionExample": "Add context, patient notes, and follow-up details",
+      "dueDate": "YYYY-MM-DD",
+      "enterDisplayName": "Enter your display name",
+      "email": "Email",
+      "password": "Password",
+      "fullName": "Full Name"
+    },
+    "theme": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": {
+      "en": "English",
+      "si": "Sinhala",
+      "ta": "Tamil"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed"
+    },
+    "network": {
+      "offline": "Offline",
+      "online": "Online"
+    },
+    "greetings": {
+      "morning": "Good Morning",
+      "afternoon": "Good Afternoon",
+      "evening": "Good Evening"
+    },
+    "misc": {
+      "noDescription": "No description",
+      "noDescriptionProvided": "No description provided",
+      "noEmailOnFile": "No email on file",
+      "medicalProfessional": "Medical Professional",
+      "notSyncedYet": "Not synced yet",
+      "taskManager": "Task Manager",
+      "offline": "Offline",
+      "all": "All"
+    }
+  },
+  "splash": {
+    "subtitle": "Smart task workflow for medical professionals"
+  },
+  "onboarding": {
+    "subtitle": "Manage priorities, reduce missed tasks, and track daily productivity.",
+    "bulletFast": "Fast task capture and editing",
+    "bulletOffline": "Offline-safe workflow with auto sync",
+    "bulletAnalytics": "Live dashboard and analytics"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Sign in to manage today's medical tasks.",
+    "signupTitle": "Create account",
+    "signupSubtitle": "Set up your workspace and start managing tasks.",
+    "createAccountLink": "Create account"
+  },
+  "dashboard": {
+    "preparing": "Preparing dashboard...",
+    "subtitle": "Here is your workload snapshot for today.",
+    "progressTitle": "Today's progress",
+    "todayTasksTitle": "Today's tasks",
+    "noTasksTodayTitle": "No tasks created today",
+    "noTasksTodaySubtitle": "Add a new task to start your daily workflow and maintain visibility."
+  },
+  "tasks": {
+    "filters": {
+      "all": "All",
+      "pending": "Pending",
+      "completed": "Completed"
+    },
+    "list": {
+      "loading": "Loading tasks...",
+      "addButton": "+ Add",
+      "errorTitle": "Could not load tasks",
+      "emptySearch": "No tasks match your search",
+      "emptyFilter": "No {{status}} tasks available",
+      "emptyDefault": "No tasks yet",
+      "emptySubtitle": "Create a new medical task and keep your workflow organized.",
+      "bottomSaving": "Saving changes...",
+      "deleteAction": "Delete"
+    },
+    "create": {
+      "title": "Create Medical Task",
+      "subtitle": "Add key details so no patient follow-up is missed."
+    },
+    "edit": {
+      "title": "Edit Task",
+      "subtitle": "Update details and keep the workflow accurate.",
+      "notFoundTitle": "Task is no longer available",
+      "notFoundSubtitle": "Please return to the list and select another task."
+    },
+    "detail": {
+      "notFoundTitle": "Task not found",
+      "notFoundSubtitle": "This item may have been deleted already.",
+      "pendingSync": "Pending sync with server."
+    },
+    "alerts": {
+      "deleteTitle": "Delete task",
+      "deleteFromListMessage": "This task will be removed from your list.",
+      "deleteFromDetailMessage": "This action cannot be undone."
+    }
+  },
+  "analytics": {
+    "title": "Productivity Analytics",
+    "subtitle": "Track completion trends and workload balance.",
+    "noDataTitle": "No data available yet",
+    "noDataSubtitle": "Create tasks and mark them completed to generate analytics.",
+    "completionProgress": "Completion Progress",
+    "priorityDistribution": "Priority Distribution"
+  },
+  "profile": {
+    "account": "Account",
+    "appearance": "Appearance",
+    "productivitySummary": "Productivity summary"
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "tasks": "Tasks",
+    "analytics": "Analytics",
+    "profile": "Profile"
+  },
+  "form": {
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleMin": "Title must be at least 3 characters",
+      "titleMax": "Title can have up to 80 characters",
+      "descriptionRequired": "Description is required",
+      "descriptionMax": "Description can have up to 300 characters",
+      "dueDateRequired": "Due date is required",
+      "dueDateInvalid": "Enter date as YYYY-MM-DD",
+      "priorityRequired": "Priority is required"
+    }
+  },
+  "session": {
+    "validation": {
+      "nameMin": "Name must be at least 2 characters.",
+      "nameMax": "Name must be 50 characters or less.",
+      "emailRequired": "Email is required."
+    },
+    "errors": {
+      "restoreSession": "Unable to restore your session.",
+      "saveSession": "Unable to save your account session.",
+      "noActiveAccount": "No active account found.",
+      "updateNameNow": "Unable to update your name right now.",
+      "signOut": "Unable to sign out. Please try again.",
+      "failedRestore": "Failed to restore account session.",
+      "failedStart": "Failed to start account session.",
+      "failedUpdateName": "Failed to update display name.",
+      "failedSignOut": "Failed to sign out."
+    }
+  },
+  "messages": {
+    "syncFailed": "Sync failed",
+    "syncCompleted": "Sync completed.",
+    "themeUpdated": "Theme set to {{mode}}.",
+    "themeUpdateFailed": "Unable to update theme preference.",
+    "languageUpdated": "Language changed to {{language}}.",
+    "languageUpdateFailed": "Unable to update language preference.",
+    "displayNameUpdated": "Display name updated.",
+    "displayNameUpdateFailed": "Unable to update your display name.",
+    "signOutFailed": "Sign out failed. Please try again.",
+    "signedOutCacheWarning": "Signed out. Local task cache was not fully cleared.",
+    "navigationNotReady": "Navigation is not ready.",
+    "signedOutSuccess": "Signed out successfully.",
+    "loginFieldsRequired": "Please enter email and password.",
+    "loginFailed": "Unable to sign in. Please try again.",
+    "signupFieldsRequired": "Please fill all fields.",
+    "signupFailed": "Unable to create account right now.",
+    "taskCreateFailed": "Failed to create task",
+    "taskSaveChangesFailed": "Failed to save task changes",
+    "taskStatusUpdateFailed": "Failed to update task status",
+    "taskDeleteFailed": "Failed to delete task"
+  },
+  "store": {
+    "tasks": {
+      "offlineChangesSynced": "Offline changes synced successfully.",
+      "offlineModeActive": "Offline mode active.",
+      "queuedChangesWaiting": "{{count}} change(s) waiting to sync.",
+      "offlineModePendingAutoSync": "Offline mode: pending changes will sync automatically.",
+      "offlineModeShowingCached": "Offline mode: showing cached tasks.",
+      "stillOfflinePendingSafe": "Still offline. Pending changes are safe.",
+      "stillOfflineShowingLocal": "Still offline. Displaying local tasks.",
+      "unableClearLocalData": "Unable to clear local task data.",
+      "taskCreatedSuccess": "Task created successfully.",
+      "taskSavedOffline": "Saved offline. Task will sync automatically.",
+      "taskUpdatedLocal": "Updated locally. Change will sync with server.",
+      "taskUpdatedSuccess": "Task updated successfully.",
+      "taskUpdateQueued": "Network unavailable. Update queued for sync.",
+      "localTaskDeleted": "Local task deleted.",
+      "taskDeletedSuccess": "Task deleted successfully.",
+      "taskDeleteQueued": "Delete queued. Will sync when network is back.",
+      "failedLoad": "Failed to load tasks",
+      "failedRefresh": "Failed to refresh tasks",
+      "failedClear": "Failed to clear local task data",
+      "failedCreate": "Failed to create task",
+      "failedUpdate": "Failed to update task",
+      "failedDelete": "Failed to delete task",
+      "unexpectedError": "Unexpected error"
+    }
+  },
+  "alerts": {
+    "signOutTitle": "Sign out",
+    "signOutMessage": "You will need to log in again to access MediTask Pro."
+  }
+}
