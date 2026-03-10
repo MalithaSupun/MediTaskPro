@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediTask Pro - Page 3 Components</title>
+    <link rel="stylesheet" href="./shared.css" />
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <h1 class="page-title">MediTask Pro - Components</h1>
+        <p class="page-subtitle">Reusable patterns derived from the existing implementation.</p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Buttons</h2>
+        <div class="row">
+          <div class="col" style="min-width: 260px;">
+            <div class="btn btn-primary">Primary Button</div>
+            <p class="caption">Used for save, sync, mark-completed actions.</p>
+          </div>
+          <div class="col" style="min-width: 260px;">
+            <div class="btn btn-secondary">Secondary Button</div>
+            <p class="caption">Outline action for neutral secondary operations.</p>
+          </div>
+          <div class="col" style="min-width: 260px;">
+            <div class="btn btn-danger">Delete Button</div>
+            <p class="caption">Destructive actions only.</p>
+          </div>
+          <div class="col" style="min-width: 160px;">
+            <div class="btn-small">+ Add</div>
+            <p class="caption">Compact CTA for headers.</p>
+          </div>
+          <div class="col" style="min-width: 120px;">
+            <div class="fab" style="position: static;">+</div>
+            <p class="caption">Floating action button</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Inputs & Search</h2>
+        <div class="row">
+          <div style="min-width: 360px;">
+            <p class="stat-label">Input Field</p>
+            <div class="input">Patient report follow-up</div>
+          </div>
+          <div style="min-width: 360px;">
+            <p class="stat-label">Input Field / Error</p>
+            <div class="input error">IC</div>
+            <p class="error-text">Title must be at least 3 characters</p>
+          </div>
+          <div style="min-width: 360px;">
+            <p class="stat-label">Search Bar</p>
+            <div class="search">Search title or description</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Segmented Controls</h2>
+        <div class="row">
+          <div style="min-width: 360px;">
+            <p class="stat-label">Status Filter</p>
+            <div class="segmented"><div class="seg-item active">All</div><div class="seg-item">Pending</div><div class="seg-item">Completed</div></div>
+          </div>
+          <div style="min-width: 360px;">
+            <p class="stat-label">Priority Selector</p>
+            <div class="segmented"><div class="seg-item">Low</div><div class="seg-item active">Medium</div><div class="seg-item">High</div></div>
+          </div>
+          <div style="min-width: 360px;">
+            <p class="stat-label">Theme Selector</p>
+            <div class="segmented"><div class="seg-item active">System</div><div class="seg-item">Light</div><div class="seg-item">Dark</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Badges</h2>
+        <div class="row">
+          <span class="badge badge-priority-low">Low</span>
+          <span class="badge badge-priority-medium">Medium</span>
+          <span class="badge badge-priority-high">High</span>
+          <span class="badge badge-status-pending">Pending</span>
+          <span class="badge badge-status-completed">Completed</span>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Task Card</h2>
+        <div style="max-width: 420px;">
+          <div class="task-card">
+            <div class="task-top">
+              <p class="task-title">Follow-up with ICU team</p>
+              <span style="color: var(--warning); font-size: 12px; font-weight: 700;">Offline</span>
+            </div>
+            <p class="task-desc">Coordinate post-op update with family and ward nurse.</p>
+            <div class="badges">
+              <span class="badge badge-priority-high">High</span>
+              <span class="badge badge-status-pending">Pending</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">State Blocks</h2>
+        <div class="row">
+          <div class="state-block" style="width: 320px;">
+            <h3 style="margin: 0;">No tasks yet</h3>
+            <p class="subtitle mt8">Create a new medical task and keep your workflow organized.</p>
+          </div>
+          <div class="state-block error" style="width: 320px;">
+            <h3 style="margin: 0; color: var(--danger);">Could not load tasks</h3>
+            <p class="subtitle mt8">Failed to refresh tasks. Please try again.</p>
+            <div class="btn btn-danger mt12" style="min-height: 40px;">Retry</div>
+          </div>
+          <div class="banner-offline" style="width: 320px;">
+            <p><strong>Offline mode active.</strong></p>
+            <p>3 change(s) waiting to sync.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Progress / Summary Card</h2>
+        <div class="card" style="max-width: 460px;">
+          <div class="header"><strong>Today's progress</strong><strong style="color: var(--primary)">67%</strong></div>
+          <div class="progress-track mt10"><div class="progress-fill" style="width: 67%"></div></div>
+          <div class="stats mt14">
+            <div><p class="stat-label">Completed</p><p class="stat-value" style="color: var(--success)">8</p></div>
+            <div><p class="stat-label">Pending</p><p class="stat-value" style="color: var(--warning)">4</p></div>
+            <div><p class="stat-label">Total</p><p class="stat-value">12</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

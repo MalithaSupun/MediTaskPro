@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediTask Pro - Page 1 User Flow</title>
+    <link rel="stylesheet" href="./shared.css" />
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <h1 class="page-title">MediTask Pro - User Flow / Wireframe Flow</h1>
+        <p class="page-subtitle">Reconstructed from implemented React Native navigation and screen hierarchy.</p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Primary Journey</h2>
+        <div class="flow">
+          <div class="flow-step">Splash</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Onboarding</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Login / Signup</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Dashboard (Tab)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Tasks (List)</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Task Detail</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Edit Task</div>
+        </div>
+        <p class="caption">Direct create path via FAB or +Add on Dashboard and Task List.</p>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Main Tabs</h2>
+        <div class="flow">
+          <div class="flow-step">Dashboard</div>
+          <div class="flow-step">Tasks (Stack)</div>
+          <div class="flow-step">Analytics</div>
+          <div class="flow-step">Profile</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">State Coverage</h2>
+        <div class="row">
+          <div class="kpi-card"><strong>Loading</strong><p class="caption">Splash + initial task load + mutating spinner</p></div>
+          <div class="kpi-card"><strong>Empty</strong><p class="caption">No tasks and no today tasks variants</p></div>
+          <div class="kpi-card"><strong>Error</strong><p class="caption">Task list fetch error with retry CTA</p></div>
+          <div class="kpi-card"><strong>Offline</strong><p class="caption">Offline banner with queued sync count</p></div>
+          <div class="kpi-card"><strong>Validation</strong><p class="caption">Task form field errors (title/description/priority)</p></div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Wireframe Snapshots</h2>
+        <div class="row">
+          <div>
+            <p class="phone-label">Dashboard</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h3 class="title-lg">Good Morning, Dr. Nimal</h3>
+                <p class="subtitle">Workload snapshot for today</p>
+                <div class="card">
+                  <div class="progress-track"><div class="progress-fill" style="width: 65%"></div></div>
+                  <div class="stats mt12">
+                    <div><p class="stat-label">Completed</p><p class="stat-value">8</p></div>
+                    <div><p class="stat-label">Pending</p><p class="stat-value" style="color: var(--warning)">4</p></div>
+                    <div><p class="stat-label">Total</p><p class="stat-value">12</p></div>
+                  </div>
+                </div>
+                <div class="task-card"><p class="task-title">Review patient lab report</p></div>
+                <div class="task-card"><p class="task-title">Complete discharge summary</p></div>
+                <div class="fab">+</div>
+                <div class="tabbar">
+                  <div class="tab-item active">Dashboard</div>
+                  <div class="tab-item">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Task List</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="header"><h3 class="title-lg">Task Manager</h3><span class="btn-small">+ Add</span></div>
+                <div class="search">Search title or description</div>
+                <div class="segmented">
+                  <div class="seg-item active">All</div>
+                  <div class="seg-item">Pending</div>
+                  <div class="seg-item">Completed</div>
+                </div>
+                <div class="task-card"><p class="task-title">Follow-up with ICU team</p></div>
+                <div class="task-card"><p class="task-title">Review discharge draft</p></div>
+                <div class="task-card"><p class="task-title">Update medication schedule</p></div>
+                <div class="fab">+</div>
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item active">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Task Detail</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="card">
+                  <div class="badges"><span class="badge badge-priority-high">High</span><span class="badge badge-status-pending">Pending</span></div>
+                  <h3 class="title-lg mt12">Follow-up with ICU team</h3>
+                  <p class="subtitle mt8">Description: Coordinate final vitals review and guardian call.</p>
+                  <p class="subtitle mt8">Created: 2026-03-09 08:30</p>
+                  <p class="subtitle">Updated: 2026-03-09 09:10</p>
+                </div>
+                <div class="btn btn-primary">Mark as Completed</div>
+                <div class="btn btn-secondary">Edit Task</div>
+                <div class="btn btn-danger">Delete Task</div>
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item active">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MediTask Pro - Page 2 High-Fidelity Screens</title>
+    <link rel="stylesheet" href="./shared.css" />
+    <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <h1 class="page-title">MediTask Pro - High-Fidelity Screens</h1>
+        <p class="page-subtitle">Light mode, implementation-aligned reconstruction for interview submission.</p>
+      </header>
+
+      <section class="section">
+        <h2 class="section-title">Core Screens + States</h2>
+        <p class="section-note">Frame size: 390x844 (iPhone 13/14). Status bar and bottom tab areas included for realistic handoff.</p>
+
+        <div class="canvas-grid">
+          <div>
+            <p class="phone-label">Splash Screen</p>
+            <div class="phone">
+              <div class="phone-screen" style="justify-content: center; align-items: center;">
+                <div class="statusbar" style="position: absolute; top: 10px; left: 16px; right: 16px;"><span>9:41</span><span>LTE 100%</span></div>
+                <div style="width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--primary); background: var(--primary-muted); display: flex; align-items: center; justify-content: center; font-size: 34px; font-weight: 800; color: var(--primary);">M</div>
+                <h2 class="title-xl" style="margin-top: 12px;">MediTask Pro</h2>
+                <p class="subtitle" style="text-align: center; max-width: 230px;">Smart task workflow for medical professionals</p>
+                <div style="margin-top: 12px; color: var(--primary); font-weight: 700;">Loading...</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Dashboard</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h2 class="title-xl">Good Morning, Dr. Nimal</h2>
+                <p class="subtitle">Here is your workload snapshot for today.</p>
+
+                <div class="card">
+                  <div class="header"><strong>Today's progress</strong><strong style="color: var(--primary)">67%</strong></div>
+                  <div class="progress-track mt10"><div class="progress-fill" style="width: 67%"></div></div>
+                  <div class="stats mt14">
+                    <div><p class="stat-label">Completed</p><p class="stat-value" style="color: var(--success)">8</p></div>
+                    <div><p class="stat-label">Pending</p><p class="stat-value" style="color: var(--warning)">4</p></div>
+                    <div><p class="stat-label">Total</p><p class="stat-value">12</p></div>
+                  </div>
+                </div>
+
+                <div class="header mt8"><strong>Today's tasks</strong><span style="color: var(--primary); font-size: 14px; font-weight: 700;">View all</span></div>
+                <div class="task-card"><div class="task-top"><p class="task-title">Review patient lab report</p><span class="badge badge-status-pending">Pending</span></div></div>
+                <div class="task-card"><div class="task-top"><p class="task-title">Complete discharge summary</p><span class="badge badge-status-completed">Completed</span></div></div>
+                <div class="task-card"><div class="task-top"><p class="task-title">Guardian follow-up call</p><span class="badge badge-status-pending">Pending</span></div></div>
+
+                <div class="fab">+</div>
+                <div class="tabbar">
+                  <div class="tab-item active">Dashboard</div>
+                  <div class="tab-item">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Task List (Default)</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="header"><h2 class="title-lg">Task Manager</h2><span class="btn-small">+ Add</span></div>
+                <div class="search">Search title or description</div>
+                <div class="segmented">
+                  <div class="seg-item active">All</div>
+                  <div class="seg-item">Pending</div>
+                  <div class="seg-item">Completed</div>
+                </div>
+
+                <div class="task-card">
+                  <div class="task-top"><p class="task-title">Follow-up with ICU team</p><span style="color: var(--warning); font-size: 12px; font-weight: 700;">Offline</span></div>
+                  <p class="task-desc">Coordinate post-op update with family and ward nurse.</p>
+                  <div class="badges"><span class="badge badge-priority-high">High</span><span class="badge badge-status-pending">Pending</span></div>
+                </div>
+                <div class="task-card">
+                  <div class="task-top"><p class="task-title">Discharge summary final check</p></div>
+                  <p class="task-desc">Verify prescription and follow-up schedule details.</p>
+                  <div class="badges"><span class="badge badge-priority-medium">Medium</span><span class="badge badge-status-completed">Completed</span></div>
+                </div>
+
+                <div class="fab">+</div>
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item active">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Add Task</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h2 class="title-lg">Create Medical Task</h2>
+                <p class="subtitle">Add key details so no patient follow-up is missed.</p>
+
+                <p class="stat-label mt12">Title</p>
+                <div class="input">Patient report follow-up</div>
+
+                <p class="stat-label mt10">Description</p>
+                <div class="input" style="min-height: 112px;">Add context, patient notes, and follow-up details</div>
+
+                <p class="stat-label mt10">Priority</p>
+                <div class="segmented">
+                  <div class="seg-item">Low</div>
+                  <div class="seg-item active">Medium</div>
+                  <div class="seg-item">High</div>
+                </div>
+
+                <div class="btn btn-primary mt20">Save Task</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Edit Task</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h2 class="title-lg">Edit Task</h2>
+                <p class="subtitle">Update details and keep the workflow accurate.</p>
+
+                <p class="stat-label mt12">Title</p>
+                <div class="input">Follow-up with ICU team</div>
+
+                <p class="stat-label mt10">Description</p>
+                <div class="input" style="min-height: 112px;">Coordinate final vitals review and guardian call.</div>
+
+                <p class="stat-label mt10">Priority</p>
+                <div class="segmented">
+                  <div class="seg-item">Low</div>
+                  <div class="seg-item">Medium</div>
+                  <div class="seg-item active">High</div>
+                </div>
+
+                <div class="btn btn-primary mt20">Save Changes</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Task Detail</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="card">
+                  <div class="header"><span class="badge badge-priority-high">High</span><span class="badge badge-status-pending">Pending</span></div>
+                  <h2 class="title-lg mt12">Follow-up with ICU team</h2>
+                  <p class="stat-label mt12">Description</p>
+                  <p class="task-desc">Coordinate final vitals review and guardian call.</p>
+                  <p class="stat-label mt12">Created</p>
+                  <p class="task-desc">3/9/2026, 8:30 AM</p>
+                  <p class="stat-label mt10">Last updated</p>
+                  <p class="task-desc">3/9/2026, 9:10 AM</p>
+                  <p class="task-desc" style="color: var(--warning); font-weight: 700;">Pending sync with server.</p>
+                </div>
+
+                <div class="btn btn-primary">Mark as Completed</div>
+                <div class="btn btn-secondary">Edit Task</div>
+                <div class="btn btn-danger">Delete Task</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Empty State</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="header"><h2 class="title-lg">Task Manager</h2><span class="btn-small">+ Add</span></div>
+                <div class="search">Search title or description</div>
+                <div class="segmented"><div class="seg-item active">All</div><div class="seg-item">Pending</div><div class="seg-item">Completed</div></div>
+                <div class="state-block mt20">
+                  <h3 style="margin: 0;">No tasks yet</h3>
+                  <p class="subtitle mt8">Create a new medical task and keep your workflow organized.</p>
+                </div>
+                <div class="fab">+</div>
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item active">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Loading State</p>
+            <div class="phone">
+              <div class="phone-screen" style="justify-content: center; align-items: center;">
+                <div class="statusbar" style="position: absolute; top: 10px; left: 16px; right: 16px;"><span>9:41</span><span>LTE 100%</span></div>
+                <div style="color: var(--primary); font-weight: 800; font-size: 22px;">● ● ●</div>
+                <p class="subtitle">Loading tasks...</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Error State</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>No Service</span></div>
+                <div class="header"><h2 class="title-lg">Task Manager</h2></div>
+                <div class="state-block error mt20">
+                  <h3 style="margin: 0; color: var(--danger);">Could not load tasks</h3>
+                  <p class="subtitle mt8">Failed to refresh tasks. Please try again.</p>
+                  <div class="btn btn-danger mt12" style="min-height: 40px;">Retry</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Offline / No Internet State</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>Offline</span></div>
+                <div class="header"><h2 class="title-lg">Task Manager</h2><span class="btn-small">+ Add</span></div>
+                <div class="banner-offline">
+                  <p><strong>Offline mode active.</strong></p>
+                  <p>3 change(s) waiting to sync.</p>
+                </div>
+                <div class="task-card">
+                  <div class="task-top"><p class="task-title">Ward round action item</p></div>
+                  <p class="task-desc">Saved locally, will auto-sync when online.</p>
+                  <div class="badges"><span class="badge badge-priority-medium">Medium</span><span class="badge badge-status-pending">Pending</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Validation Error State</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h2 class="title-lg">Create Medical Task</h2>
+                <p class="subtitle">Add key details so no patient follow-up is missed.</p>
+
+                <p class="stat-label mt12">Title</p>
+                <div class="input error">IC</div>
+                <p class="error-text">Title must be at least 3 characters</p>
+
+                <p class="stat-label mt10">Description</p>
+                <div class="input error" style="min-height: 112px;"></div>
+                <p class="error-text">Description is required</p>
+
+                <p class="stat-label mt10">Priority</p>
+                <div class="segmented"><div class="seg-item active">Low</div><div class="seg-item">Medium</div><div class="seg-item">High</div></div>
+
+                <div class="btn btn-primary mt20">Save Task</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Analytics / Summary (Existing Screen)</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <h2 class="title-lg">Productivity Analytics</h2>
+                <p class="subtitle">Track completion trends and workload balance.</p>
+
+                <div class="card">
+                  <strong>Completion Progress</strong>
+                  <h2 class="title-xl" style="margin-top: 6px; color: var(--primary);">78%</h2>
+                  <div class="progress-track"><div class="progress-fill" style="width: 78%"></div></div>
+                  <div class="stats mt12">
+                    <div><p class="stat-label">Completed</p><p class="stat-value" style="color: var(--success)">14</p></div>
+                    <div><p class="stat-label">Pending</p><p class="stat-value" style="color: var(--warning)">4</p></div>
+                    <div><p class="stat-label">Total</p><p class="stat-value">18</p></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <strong>Priority Distribution</strong>
+                  <p class="subtitle mt10">High - 40%</p>
+                  <div class="progress-track"><div class="progress-fill" style="width: 40%; background: #d35c4a"></div></div>
+                  <p class="subtitle mt10">Medium - 30%</p>
+                  <div class="progress-track"><div class="progress-fill" style="width: 30%; background: #d38d2e"></div></div>
+                  <p class="subtitle mt10">Low - 30%</p>
+                  <div class="progress-track"><div class="progress-fill" style="width: 30%; background: #2e9d6d"></div></div>
+                </div>
+
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item">Tasks</div>
+                  <div class="tab-item active">Analytics</div>
+                  <div class="tab-item">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="phone-label">Settings / Theme (Existing Profile Screen)</p>
+            <div class="phone">
+              <div class="phone-screen">
+                <div class="statusbar"><span>9:41</span><span>LTE 100%</span></div>
+                <div class="card" style="display: flex; align-items: center; gap: 12px;">
+                  <div style="width: 56px; height: 56px; border-radius: 999px; background: var(--primary-muted); color: var(--primary); font-size: 24px; font-weight: 800; display: flex; align-items: center; justify-content: center;">D</div>
+                  <div><h3 style="margin: 0;">Dr. Nimal</h3><p class="subtitle">dr.nimal@example.com</p></div>
+                </div>
+                <div class="card">
+                  <strong>Appearance</strong>
+                  <p class="stat-label mt10">Theme mode</p>
+                  <div class="segmented"><div class="seg-item active">System</div><div class="seg-item">Light</div><div class="seg-item">Dark</div></div>
+                  <p class="stat-label mt14">Language</p>
+                  <div class="segmented"><div class="seg-item active">EN</div><div class="seg-item">SI</div><div class="seg-item">TA</div></div>
+                </div>
+                <div class="btn btn-primary">Sync now</div>
+                <div class="btn btn-secondary" style="border-color: var(--danger); color: var(--danger);">Sign out</div>
+                <div class="tabbar">
+                  <div class="tab-item">Dashboard</div>
+                  <div class="tab-item">Tasks</div>
+                  <div class="tab-item">Analytics</div>
+                  <div class="tab-item active">Profile</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
