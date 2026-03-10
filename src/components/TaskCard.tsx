@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../hooks/useAppTheme';
 import type { Task } from '../types/task';
+import { formatDateInput } from '../utils/dateTime';
 import PriorityBadge from './PriorityBadge';
 import StatusBadge from './StatusBadge';
 
@@ -45,6 +46,10 @@ const TaskCard = ({ task, onPress }: TaskCardProps) => {
         {task.description || t('common.misc.noDescription')}
       </Text>
 
+      <Text style={[styles.dueDate, { color: appTheme.colors.textSecondary }]}>
+        {t('common.labels.dueDate')}: {formatDateInput(task.dueDate)}
+      </Text>
+
       <View style={styles.metaRow}>
         <PriorityBadge priority={task.priority} />
         <StatusBadge status={task.status} />
@@ -81,7 +86,12 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     lineHeight: 20,
-    marginBottom: 12,
+    marginBottom: 8,
+  },
+  dueDate: {
+    fontSize: 12,
+    fontWeight: '600',
+    marginBottom: 10,
   },
   metaRow: {
     flexDirection: 'row',

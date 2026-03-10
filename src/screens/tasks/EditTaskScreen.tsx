@@ -97,6 +97,7 @@ const EditTaskScreen = () => {
           defaultValues={{
             title: task.title,
             description: task.description,
+            dueDate: task.dueDate,
             priority: task.priority,
           }}
           submitLabel={t('common.actions.saveChanges')}

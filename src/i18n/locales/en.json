@@ -24,6 +24,7 @@
     "labels": {
       "title": "Title",
       "description": "Description",
+      "dueDate": "Due date",
       "priority": "Priority",
       "created": "Created",
       "lastUpdated": "Last updated",
@@ -45,6 +46,7 @@
       "searchTasks": "Search title or description",
       "titleExample": "Patient report follow-up",
       "descriptionExample": "Add context, patient notes, and follow-up details",
+      "dueDate": "YYYY-MM-DD",
       "enterDisplayName": "Enter your display name",
       "email": "Email",
       "password": "Password",
@@ -177,6 +179,8 @@
       "titleMax": "Title can have up to 80 characters",
       "descriptionRequired": "Description is required",
       "descriptionMax": "Description can have up to 300 characters",
+      "dueDateRequired": "Due date is required",
+      "dueDateInvalid": "Enter date as YYYY-MM-DD",
       "priorityRequired": "Priority is required"
     }
   },

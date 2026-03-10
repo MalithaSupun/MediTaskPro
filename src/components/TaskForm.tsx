@@ -12,6 +12,7 @@ import SegmentedControl from './SegmentedControl';
 export interface TaskFormValues {
   title: string;
   description: string;
+  dueDate: string;
   priority: TaskPriority;
 }
 
@@ -40,6 +41,25 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
           .trim()
           .required(t('form.validation.descriptionRequired'))
           .max(300, t('form.validation.descriptionMax')),
+        dueDate: yup
+          .string()
+          .trim()
+          .required(t('form.validation.dueDateRequired'))
+          .matches(/^\d{4}-\d{2}-\d{2}$/, t('form.validation.dueDateInvalid'))
+          .test('valid-calendar-date', t('form.validation.dueDateInvalid'), value => {
+            if (!value) {
+              return false;
+            }
+
+            const [year, month, day] = value.split('-').map(Number);
+            const parsedDate = new Date(year, month - 1, day);
+
+            return (
+              parsedDate.getFullYear() === year &&
+              parsedDate.getMonth() === month - 1 &&
+              parsedDate.getDate() === day
+            );
+          }),
         priority: yup.mixed<TaskPriority>().oneOf(TASK_PRIORITIES).required(t('form.validation.priorityRequired')),
       }),
     [t],
@@ -111,6 +131,35 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
       />
       {errors.description ? (
         <Text style={[styles.errorText, { color: appTheme.colors.danger }]}>{errors.description.message}</Text>
+      ) : null}
+
+      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.dueDate')}</Text>
+      <Controller
+        control={control}
+        name="dueDate"
+        render={({ field: { value, onChange, onBlur } }) => (
+          <TextInput
+            value={value}
+            onChangeText={onChange}
+            onBlur={onBlur}
+            keyboardType="numbers-and-punctuation"
+            placeholder={t('common.placeholders.dueDate')}
+            placeholderTextColor={appTheme.colors.textSecondary}
+            maxLength={10}
+            style={[
+              styles.input,
+              {
+                borderColor: errors.dueDate ? appTheme.colors.danger : appTheme.colors.border,
+                color: appTheme.colors.textPrimary,
+                backgroundColor: appTheme.colors.card,
+                borderRadius: appTheme.radius.md,
+              },
+            ]}
+          />
+        )}
+      />
+      {errors.dueDate ? (
+        <Text style={[styles.errorText, { color: appTheme.colors.danger }]}>{errors.dueDate.message}</Text>
       ) : null}
 
       <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.priority')}</Text>

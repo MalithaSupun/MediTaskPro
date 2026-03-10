@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import type { RootState } from './index';
-import { isSameLocalDay } from '../utils/dateTime';
+import { isDateInputForLocalDay } from '../utils/dateTime';
 import type { Task, TaskFilter } from '../types/task';
 
 export const selectPreferencesState = (state: RootState) => state.preferences;
@@ -53,7 +53,7 @@ export const selectPriorityMetrics = createSelector(selectAllTasks, allTasks => 
 export const selectTodayTasks = createSelector(selectAllTasks, allTasks => {
   const today = new Date();
 
-  return allTasks.filter(task => isSameLocalDay(task.createdAt, today));
+  return allTasks.filter(task => isDateInputForLocalDay(task.dueDate, today));
 });
 
 export const selectVisibleTasks = createSelector(
@@ -65,7 +65,8 @@ export const selectVisibleTasks = createSelector(
       const matchesSearch =
         !normalizedSearchTerm ||
         task.title.toLowerCase().includes(normalizedSearchTerm) ||
-        task.description.toLowerCase().includes(normalizedSearchTerm);
+        task.description.toLowerCase().includes(normalizedSearchTerm) ||
+        task.dueDate.toLowerCase().includes(normalizedSearchTerm);
 
       const matchesFilter = filter === 'All' ? true : task.status === filter;
 

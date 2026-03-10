@@ -24,6 +24,7 @@
     "labels": {
       "title": "මාතෘකාව",
       "description": "විස්තරය",
+      "dueDate": "නියමිත දිනය",
       "priority": "ප්‍රමුඛතාව",
       "created": "සාදන ලදි",
       "lastUpdated": "අවසන් යාවත්කාලීන කිරීම",
@@ -45,6 +46,7 @@
       "searchTasks": "මාතෘකාව හෝ විස්තරය සොයන්න",
       "titleExample": "රෝගී වාර්තා පසු විපරම්",
       "descriptionExample": "සන්දර්භය, රෝගී සටහන් සහ පසු විපරම් විස්තර එක් කරන්න",
+      "dueDate": "YYYY-MM-DD",
       "enterDisplayName": "ඔබේ ප්‍රදර්ශන නම ඇතුල් කරන්න",
       "email": "ඊමේල්",
       "password": "මුරපදය",
@@ -177,6 +179,8 @@
       "titleMax": "මාතෘකාව අක්ෂර 80ක් දක්වා පමණි",
       "descriptionRequired": "විස්තරය අවශ්‍යයි",
       "descriptionMax": "විස්තරය අක්ෂර 300ක් දක්වා පමණි",
+      "dueDateRequired": "නියමිත දිනය අවශ්‍යයි",
+      "dueDateInvalid": "දිනය YYYY-MM-DD ආකෘතියෙන් ඇතුල් කරන්න",
       "priorityRequired": "ප්‍රමුඛතාව අවශ්‍යයි"
     }
   },

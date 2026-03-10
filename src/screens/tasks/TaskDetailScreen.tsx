@@ -13,6 +13,7 @@ import type { TaskStackParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getTaskById, selectTasksState } from '../../store/selectors';
 import { deleteTaskById, updateTask } from '../../store/tasksSlice';
+import { formatDateInput } from '../../utils/dateTime';
 import { showToast } from '../../utils/toast';
 
 const TaskDetailScreen = () => {
@@ -136,6 +137,11 @@ const TaskDetailScreen = () => {
           </Text>
           <Text style={[styles.description, { color: appTheme.colors.textPrimary }]}>
             {task.description || t('common.misc.noDescriptionProvided')}
+          </Text>
+
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.dueDate')}</Text>
+          <Text style={[styles.timestamp, { color: appTheme.colors.textPrimary }]}>
+            {formatDateInput(task.dueDate)}
           </Text>
 
           <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.created')}</Text>

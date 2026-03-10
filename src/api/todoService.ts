@@ -13,6 +13,7 @@ interface ApiTodo {
   id: string;
   title?: string;
   description?: string;
+  dueDate?: string;
   priority?: string;
   status?: string;
   createdAt?: string;
@@ -43,6 +44,38 @@ function normalizeStatus(value: string | undefined): TaskStatus {
     : 'Pending';
 }
 
+function toLocalDateInputValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function normalizeDueDate(value: string | undefined, fallbackIso: string): string {
+  const normalized = value?.trim();
+
+  if (normalized && /^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+    return normalized;
+  }
+
+  if (normalized) {
+    const parsedInputDate = new Date(normalized);
+
+    if (!Number.isNaN(parsedInputDate.getTime())) {
+      return toLocalDateInputValue(parsedInputDate);
+    }
+  }
+
+  const fallbackDate = new Date(fallbackIso);
+
+  if (Number.isNaN(fallbackDate.getTime())) {
+    return toLocalDateInputValue(new Date());
+  }
+
+  return toLocalDateInputValue(fallbackDate);
+}
+
 function normalizeTask(apiTodo: ApiTodo): Task {
   const createdAt = apiTodo.createdAt ?? new Date().toISOString();
   const updatedAt = apiTodo.updatedAt ?? createdAt;
@@ -51,6 +84,7 @@ function normalizeTask(apiTodo: ApiTodo): Task {
     id: apiTodo.id,
     title: apiTodo.title?.trim() ?? 'Untitled task',
     description: apiTodo.description?.trim() ?? '',
+    dueDate: normalizeDueDate(apiTodo.dueDate, createdAt),
     priority: normalizePriority(apiTodo.priority),
     status: normalizeStatus(apiTodo.status),
     createdAt,
@@ -68,6 +102,10 @@ function buildApiPayload(payload: TaskInput & { status?: TaskStatus } | TaskUpda
 
   if ('description' in payload && payload.description !== undefined) {
     data.description = payload.description.trim();
+  }
+
+  if ('dueDate' in payload && payload.dueDate !== undefined) {
+    data.dueDate = payload.dueDate.trim();
   }
 
   if ('priority' in payload && payload.priority !== undefined) {

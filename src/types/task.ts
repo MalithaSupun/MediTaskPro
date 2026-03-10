@@ -10,6 +10,7 @@ export interface Task {
   id: string;
   title: string;
   description: string;
+  dueDate: string;
   priority: TaskPriority;
   status: TaskStatus;
   createdAt: string;
@@ -20,10 +21,11 @@ export interface Task {
 export interface TaskInput {
   title: string;
   description: string;
+  dueDate: string;
   priority: TaskPriority;
 }
 
-export type TaskUpdateInput = Partial<Pick<Task, 'title' | 'description' | 'priority' | 'status'>>;
+export type TaskUpdateInput = Partial<Pick<Task, 'title' | 'description' | 'dueDate' | 'priority' | 'status'>>;
 
 interface BaseSyncOperation {
   id: string;

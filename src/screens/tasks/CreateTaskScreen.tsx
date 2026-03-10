@@ -12,6 +12,7 @@ import type { TaskStackParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectTasksState } from '../../store/selectors';
 import { createTask } from '../../store/tasksSlice';
+import { toLocalDateInputValue } from '../../utils/dateTime';
 import { showToast } from '../../utils/toast';
 
 const CreateTaskScreen = () => {
@@ -63,6 +64,7 @@ const CreateTaskScreen = () => {
           defaultValues={{
             title: '',
             description: '',
+            dueDate: toLocalDateInputValue(new Date()),
             priority: 'Medium',
           }}
           submitLabel={t('common.actions.saveTask')}

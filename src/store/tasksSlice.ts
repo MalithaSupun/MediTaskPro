@@ -86,6 +86,45 @@ function sortTasks(tasks: Task[]): Task[] {
   });
 }
 
+function toLocalDateInputValue(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}
+
+function normalizeDueDateValue(value: string | undefined, fallbackIso: string): string {
+  const normalized = value?.trim();
+
+  if (normalized && /^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+    return normalized;
+  }
+
+  if (normalized) {
+    const parsedInputDate = new Date(normalized);
+
+    if (!Number.isNaN(parsedInputDate.getTime())) {
+      return toLocalDateInputValue(parsedInputDate);
+    }
+  }
+
+  const fallbackDate = new Date(fallbackIso);
+
+  if (Number.isNaN(fallbackDate.getTime())) {
+    return toLocalDateInputValue(new Date());
+  }
+
+  return toLocalDateInputValue(fallbackDate);
+}
+
+function normalizeTaskDateShape(task: Task): Task {
+  return {
+    ...task,
+    dueDate: normalizeDueDateValue(task.dueDate, task.createdAt),
+  };
+}
+
 function generateOperationId(): string {
   return `sync-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`;
 }
@@ -102,7 +141,7 @@ async function loadPersistedTasksState(): Promise<PersistedTasksState> {
   ]);
 
   return {
-    tasks: sortTasks(tasks),
+    tasks: sortTasks(tasks.map(normalizeTaskDateShape)),
     queue,
     lastSyncedAt,
   };
@@ -122,6 +161,7 @@ function trimTaskInput(input: TaskInput): TaskInput {
   return {
     title: input.title.trim(),
     description: input.description.trim(),
+    dueDate: normalizeDueDateValue(input.dueDate, new Date().toISOString()),
     priority: input.priority,
   };
 }
@@ -130,6 +170,10 @@ function trimTaskUpdateInput(input: TaskUpdateInput): TaskUpdateInput {
   return {
     title: typeof input.title === 'string' ? input.title.trim() : undefined,
     description: typeof input.description === 'string' ? input.description.trim() : undefined,
+    dueDate:
+      typeof input.dueDate === 'string'
+        ? normalizeDueDateValue(input.dueDate, new Date().toISOString())
+        : undefined,
     priority: input.priority,
     status: input.status,
   };
@@ -142,6 +186,7 @@ function buildLocalTask(args: CreateTaskArgs): Task {
     id: generateLocalTaskId(),
     title: args.title,
     description: args.description,
+    dueDate: normalizeDueDateValue(args.dueDate, timestamp),
     priority: args.priority,
     status: args.status ?? 'Pending',
     createdAt: timestamp,
@@ -151,20 +196,21 @@ function buildLocalTask(args: CreateTaskArgs): Task {
 }
 
 function upsertTask(tasks: Task[], task: Task): Task[] {
-  const withoutDuplicate = tasks.filter(existingTask => existingTask.id !== task.id);
-  return sortTasks([task, ...withoutDuplicate]);
+  const normalizedTask = normalizeTaskDateShape(task);
+  const withoutDuplicate = tasks.filter(existingTask => existingTask.id !== normalizedTask.id);
+  return sortTasks([normalizedTask, ...withoutDuplicate]);
 }
 
 function mergeRemoteWithUnsynced(remoteTasks: Task[], localTasks: Task[]): Task[] {
   const taskMap = new Map<string, Task>();
 
   remoteTasks.forEach(remoteTask => {
-    taskMap.set(remoteTask.id, { ...remoteTask, synced: true });
+    taskMap.set(remoteTask.id, { ...normalizeTaskDateShape(remoteTask), synced: true });
   });
 
   localTasks.forEach(localTask => {
     if (!localTask.synced) {
-      taskMap.set(localTask.id, localTask);
+      taskMap.set(localTask.id, normalizeTaskDateShape(localTask));
     }
   });
 
@@ -181,6 +227,7 @@ function enqueueCreateOperation(queue: SyncOperation[], localTask: Task): SyncOp
       payload: {
         title: localTask.title,
         description: localTask.description,
+        dueDate: localTask.dueDate,
         priority: localTask.priority,
         status: localTask.status,
       },
