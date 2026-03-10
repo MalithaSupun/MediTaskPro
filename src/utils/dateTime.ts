@@ -8,23 +8,23 @@ export function isSameLocalDay(firstDateIso: string, secondDate: Date): boolean 
   );
 }
 
-export function getGreetingByTime(date: Date): string {
+export function getGreetingByTime(date: Date): 'morning' | 'afternoon' | 'evening' {
   const currentHour = date.getHours();
 
   if (currentHour < 12) {
-    return 'Good Morning';
+    return 'morning';
   }
 
   if (currentHour < 17) {
-    return 'Good Afternoon';
+    return 'afternoon';
   }
 
-  return 'Good Evening';
+  return 'evening';
 }
 
-export function formatSyncTime(isoDate: string | null): string {
+export function formatSyncTime(isoDate: string | null, emptyLabel = 'Not synced yet'): string {
   if (!isoDate) {
-    return 'Not synced yet';
+    return emptyLabel;
   }
 
   return new Date(isoDate).toLocaleString();

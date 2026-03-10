@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
@@ -9,6 +10,7 @@ import type { RootStackParamList } from '../../navigation/types';
 const OnboardingScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Onboarding'>>();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 
@@ -22,13 +24,21 @@ const OnboardingScreen = () => {
           },
         ]}
       >
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>MediTask Pro</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Manage priorities, reduce missed tasks, and track daily productivity.</Text>
+        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('common.appName')}</Text>
+        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
+          {t('onboarding.subtitle')}
+        </Text>
 
         <View style={styles.bulletList}>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>- Fast task capture and editing</Text>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>- Offline-safe workflow with auto sync</Text>
-          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>- Live dashboard and analytics</Text>
+          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+            - {t('onboarding.bulletFast')}
+          </Text>
+          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+            - {t('onboarding.bulletOffline')}
+          </Text>
+          <Text style={[styles.bulletText, { color: appTheme.colors.textPrimary }]}>
+            - {t('onboarding.bulletAnalytics')}
+          </Text>
         </View>
 
         <Pressable
@@ -42,7 +52,7 @@ const OnboardingScreen = () => {
             },
           ]}
         >
-          <Text style={styles.ctaLabel}>Get Started</Text>
+          <Text style={styles.ctaLabel}>{t('common.actions.getStarted')}</Text>
         </Pressable>
       </View>
     </View>

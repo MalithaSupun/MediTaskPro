@@ -5,6 +5,7 @@ import {
   type CompositeNavigationProp,
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { AuthStackParamList, RootStackParamList } from '../../navigation/types';
@@ -22,6 +23,7 @@ const SignupScreen = () => {
   const navigation = useNavigation<SignupNavigation>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
   const { saving } = useAppSelector(selectSessionState);
 
   const [fullName, setFullName] = useState('');
@@ -30,7 +32,7 @@ const SignupScreen = () => {
 
   const handleSignup = async () => {
     if (!fullName.trim() || !email.trim() || !password.trim()) {
-      showToast('Please fill all fields.');
+      showToast(t('messages.signupFieldsRequired'));
       return;
     }
 
@@ -42,14 +44,14 @@ const SignupScreen = () => {
     );
 
     if (startSession.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Unable to create account right now.');
+      showToast(t(resultAction.payload ?? 'messages.signupFailed', { defaultValue: t('messages.signupFailed') }));
       return;
     }
 
     const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
 
     if (!rootNavigation) {
-      showToast('Navigation is not ready.');
+      showToast(t('messages.navigationNotReady'));
       return;
     }
 
@@ -58,13 +60,13 @@ const SignupScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 
-      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>Create account</Text>
-      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Set up your workspace and start managing tasks.</Text>
+      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('auth.signupTitle')}</Text>
+      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('auth.signupSubtitle')}</Text>
 
       <TextInput
         value={fullName}
         onChangeText={setFullName}
-        placeholder="Full Name"
+        placeholder={t('common.placeholders.fullName')}
         placeholderTextColor={appTheme.colors.textSecondary}
         style={[
           styles.input,
@@ -82,7 +84,7 @@ const SignupScreen = () => {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
-        placeholder="Email"
+        placeholder={t('common.placeholders.email')}
         placeholderTextColor={appTheme.colors.textSecondary}
         style={[
           styles.input,
@@ -99,7 +101,7 @@ const SignupScreen = () => {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        placeholder="Password"
+        placeholder={t('common.placeholders.password')}
         placeholderTextColor={appTheme.colors.textSecondary}
         style={[
           styles.input,
@@ -124,7 +126,11 @@ const SignupScreen = () => {
           },
         ]}
       >
-        {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>Create Account</Text>}
+        {saving ? (
+          <ActivityIndicator color="#FFFFFF" />
+        ) : (
+          <Text style={styles.buttonText}>{t('common.actions.createAccount')}</Text>
+        )}
       </Pressable>
     </View>
   );

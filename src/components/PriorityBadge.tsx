@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../hooks/useAppTheme';
 import type { TaskPriority } from '../types/task';
@@ -8,19 +9,19 @@ interface PriorityBadgeProps {
   priority: TaskPriority;
 }
 
-const priorityConfig: Record<TaskPriority, { label: string; lightColor: string; darkColor: string }> = {
+const priorityConfig: Record<TaskPriority, { key: 'low' | 'medium' | 'high'; lightColor: string; darkColor: string }> = {
   Low: {
-    label: 'Low',
+    key: 'low',
     lightColor: '#D9F8E6',
     darkColor: '#1F4D34',
   },
   Medium: {
-    label: 'Medium',
+    key: 'medium',
     lightColor: '#FFE9C7',
     darkColor: '#5D3D11',
   },
   High: {
-    label: 'High',
+    key: 'high',
     lightColor: '#FFD6D1',
     darkColor: '#5A1F1A',
   },
@@ -28,6 +29,7 @@ const priorityConfig: Record<TaskPriority, { label: string; lightColor: string; 
 
 const PriorityBadge = ({ priority }: PriorityBadgeProps) => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
   const config = priorityConfig[priority];
 
   return (
@@ -40,7 +42,9 @@ const PriorityBadge = ({ priority }: PriorityBadgeProps) => {
         },
       ]}
     >
-      <Text style={[styles.text, { color: appTheme.colors.textPrimary }]}>{config.label}</Text>
+      <Text style={[styles.text, { color: appTheme.colors.textPrimary }]}>
+        {t(`common.priority.${config.key}`)}
+      </Text>
     </View>
   );
 };

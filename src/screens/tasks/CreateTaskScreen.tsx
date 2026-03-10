@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import ScreenContainer from '../../components/ScreenContainer';
 import TaskForm, { type TaskFormValues } from '../../components/TaskForm';
@@ -16,6 +17,7 @@ const CreateTaskScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<TaskStackParamList, 'CreateTask'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const { mutating } = useAppSelector(selectTasksState);
 
@@ -32,15 +34,21 @@ const CreateTaskScreen = () => {
     }
 
     if (createTask.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Failed to create task');
+      showToast(
+        t(resultAction.payload ?? 'messages.taskCreateFailed', {
+          defaultValue: t('messages.taskCreateFailed'),
+        }),
+      );
     }
   };
 
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>Create Medical Task</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Add key details so no patient follow-up is missed.</Text>
+        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('tasks.create.title')}</Text>
+        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
+          {t('tasks.create.subtitle')}
+        </Text>
 
         <TaskForm
           defaultValues={{
@@ -48,7 +56,7 @@ const CreateTaskScreen = () => {
             description: '',
             priority: 'Medium',
           }}
-          submitLabel="Save Task"
+          submitLabel={t('common.actions.saveTask')}
           loading={mutating}
           onSubmit={handleSubmit}
         />

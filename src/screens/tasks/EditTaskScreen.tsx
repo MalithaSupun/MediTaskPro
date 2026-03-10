@@ -2,6 +2,7 @@ import React from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import ScreenContainer from '../../components/ScreenContainer';
 import TaskForm, { type TaskFormValues } from '../../components/TaskForm';
@@ -17,6 +18,7 @@ const EditTaskScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<TaskStackParamList, 'EditTask'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const task = useAppSelector(state => getTaskById(state.tasks.tasks, route.params.id));
   const { mutating } = useAppSelector(selectTasksState);
@@ -25,8 +27,12 @@ const EditTaskScreen = () => {
     return (
       <ScreenContainer>
         <View style={styles.notFoundContainer}>
-          <Text style={[styles.notFoundTitle, { color: appTheme.colors.textPrimary }]}>Task is no longer available</Text>
-          <Text style={[styles.notFoundSubtitle, { color: appTheme.colors.textSecondary }]}>Please return to the list and select another task.</Text>
+          <Text style={[styles.notFoundTitle, { color: appTheme.colors.textPrimary }]}>
+            {t('tasks.edit.notFoundTitle')}
+          </Text>
+          <Text style={[styles.notFoundSubtitle, { color: appTheme.colors.textSecondary }]}>
+            {t('tasks.edit.notFoundSubtitle')}
+          </Text>
           <Pressable
             onPress={() => navigation.goBack()}
             style={({ pressed }) => [
@@ -38,7 +44,7 @@ const EditTaskScreen = () => {
               },
             ]}
           >
-            <Text style={styles.notFoundButtonText}>Go Back</Text>
+            <Text style={styles.notFoundButtonText}>{t('common.actions.goBack')}</Text>
           </Pressable>
         </View>
       </ScreenContainer>
@@ -63,15 +69,19 @@ const EditTaskScreen = () => {
     }
 
     if (updateTask.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Failed to save task changes');
+      showToast(
+        t(resultAction.payload ?? 'messages.taskSaveChangesFailed', {
+          defaultValue: t('messages.taskSaveChangesFailed'),
+        }),
+      );
     }
   };
 
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>Edit Task</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Update details and keep the workflow accurate.</Text>
+        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('tasks.edit.title')}</Text>
+        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('tasks.edit.subtitle')}</Text>
 
         <TaskForm
           key={task.id}
@@ -80,7 +90,7 @@ const EditTaskScreen = () => {
             description: task.description,
             priority: task.priority,
           }}
-          submitLabel="Save Changes"
+          submitLabel={t('common.actions.saveChanges')}
           loading={mutating}
           onSubmit={handleSubmit}
         />

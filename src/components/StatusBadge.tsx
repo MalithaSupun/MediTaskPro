@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../hooks/useAppTheme';
 import type { TaskStatus } from '../types/task';
@@ -10,6 +11,7 @@ interface StatusBadgeProps {
 
 const StatusBadge = ({ status }: StatusBadgeProps) => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
   const isCompleted = status === 'Completed';
 
   return (
@@ -30,7 +32,7 @@ const StatusBadge = ({ status }: StatusBadgeProps) => {
           },
         ]}
       >
-        {status}
+        {isCompleted ? t('common.status.completed') : t('common.status.pending')}
       </Text>
     </View>
   );

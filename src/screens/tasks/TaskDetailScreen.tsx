@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import PriorityBadge from '../../components/PriorityBadge';
 import ScreenContainer from '../../components/ScreenContainer';
@@ -18,6 +19,7 @@ const TaskDetailScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<TaskStackParamList, 'TaskDetail'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const task = useAppSelector(state => getTaskById(state.tasks.tasks, route.params.id));
   const { mutating } = useAppSelector(selectTasksState);
@@ -26,8 +28,12 @@ const TaskDetailScreen = () => {
     return (
       <ScreenContainer>
         <View style={styles.missingContainer}>
-          <Text style={[styles.missingTitle, { color: appTheme.colors.textPrimary }]}>Task not found</Text>
-          <Text style={[styles.missingSubtitle, { color: appTheme.colors.textSecondary }]}>This item may have been deleted already.</Text>
+          <Text style={[styles.missingTitle, { color: appTheme.colors.textPrimary }]}>
+            {t('tasks.detail.notFoundTitle')}
+          </Text>
+          <Text style={[styles.missingSubtitle, { color: appTheme.colors.textSecondary }]}>
+            {t('tasks.detail.notFoundSubtitle')}
+          </Text>
           <Pressable
             onPress={() => navigation.goBack()}
             style={({ pressed }) => [
@@ -39,7 +45,7 @@ const TaskDetailScreen = () => {
               },
             ]}
           >
-            <Text style={styles.backButtonText}>Go back</Text>
+            <Text style={styles.backButtonText}>{t('common.actions.goBack')}</Text>
           </Pressable>
         </View>
       </ScreenContainer>
@@ -56,18 +62,22 @@ const TaskDetailScreen = () => {
     }
 
     if (updateTask.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Failed to update task status');
+      showToast(
+        t(resultAction.payload ?? 'messages.taskStatusUpdateFailed', {
+          defaultValue: t('messages.taskStatusUpdateFailed'),
+        }),
+      );
     }
   };
 
   const handleDelete = () => {
-    Alert.alert('Delete task', 'This action cannot be undone.', [
+    Alert.alert(t('tasks.alerts.deleteTitle'), t('tasks.alerts.deleteFromDetailMessage'), [
       {
-        text: 'Cancel',
+        text: t('common.actions.cancel'),
         style: 'cancel',
       },
       {
-        text: 'Delete',
+        text: t('common.actions.delete'),
         style: 'destructive',
         onPress: async () => {
           const resultAction = await dispatch(deleteTaskById({ id: task.id }));
@@ -82,7 +92,11 @@ const TaskDetailScreen = () => {
           }
 
           if (deleteTaskById.rejected.match(resultAction)) {
-            showToast(resultAction.payload ?? 'Failed to delete task');
+            showToast(
+              t(resultAction.payload ?? 'messages.taskDeleteFailed', {
+                defaultValue: t('messages.taskDeleteFailed'),
+              }),
+            );
           }
         },
       },
@@ -109,23 +123,29 @@ const TaskDetailScreen = () => {
 
           <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{task.title}</Text>
 
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Description</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>
+            {t('common.labels.description')}
+          </Text>
           <Text style={[styles.description, { color: appTheme.colors.textPrimary }]}>
-            {task.description || 'No description provided'}
+            {task.description || t('common.misc.noDescriptionProvided')}
           </Text>
 
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Created</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.created')}</Text>
           <Text style={[styles.timestamp, { color: appTheme.colors.textPrimary }]}>
             {new Date(task.createdAt).toLocaleString()}
           </Text>
 
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Last updated</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>
+            {t('common.labels.lastUpdated')}
+          </Text>
           <Text style={[styles.timestamp, { color: appTheme.colors.textPrimary }]}>
             {new Date(task.updatedAt).toLocaleString()}
           </Text>
 
           {!task.synced ? (
-            <Text style={[styles.unsyncedText, { color: appTheme.colors.warning }]}>Pending sync with server.</Text>
+            <Text style={[styles.unsyncedText, { color: appTheme.colors.warning }]}>
+              {t('tasks.detail.pendingSync')}
+            </Text>
           ) : null}
         </View>
 
@@ -141,7 +161,11 @@ const TaskDetailScreen = () => {
             },
           ]}
         >
-          <Text style={styles.primaryButtonText}>Mark as {nextStatus}</Text>
+          <Text style={styles.primaryButtonText}>
+            {t('common.actions.markAs', {
+              status: t(`common.status.${nextStatus.toLowerCase()}`),
+            })}
+          </Text>
         </Pressable>
 
         <Pressable
@@ -156,7 +180,9 @@ const TaskDetailScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.secondaryButtonText, { color: appTheme.colors.primary }]}>Edit Task</Text>
+          <Text style={[styles.secondaryButtonText, { color: appTheme.colors.primary }]}>
+            {t('common.actions.editTask')}
+          </Text>
         </Pressable>
 
         <Pressable
@@ -171,7 +197,7 @@ const TaskDetailScreen = () => {
             },
           ]}
         >
-          <Text style={styles.deleteButtonText}>Delete Task</Text>
+          <Text style={styles.deleteButtonText}>{t('common.actions.deleteTask')}</Text>
         </Pressable>
       </ScrollView>
     </ScreenContainer>

@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { useTranslation } from 'react-i18next';
 
 import EmptyState from '../../components/EmptyState';
 import OfflineBanner from '../../components/OfflineBanner';
@@ -19,6 +20,7 @@ const DashboardScreen = () => {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList, 'Dashboard'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const taskMetrics = useAppSelector(selectTaskMetrics);
   const todayTasks = useAppSelector(selectTodayTasks);
@@ -32,16 +34,16 @@ const DashboardScreen = () => {
   }, [dispatch, initialized]);
 
   const greeting = useMemo(() => {
-    const displayName = currentUser?.fullName ?? 'Medical Professional';
-    return `${getGreetingByTime(new Date())}, ${displayName}`;
-  }, [currentUser?.fullName]);
+    const displayName = currentUser?.fullName ?? t('common.misc.medicalProfessional');
+    return `${t(`common.greetings.${getGreetingByTime(new Date())}`)}, ${displayName}`;
+  }, [currentUser?.fullName, t]);
 
   if (loading && !initialized) {
     return (
       <ScreenContainer>
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={appTheme.colors.primary} />
-          <Text style={[styles.centerLabel, { color: appTheme.colors.textSecondary }]}>Preparing dashboard...</Text>
+          <Text style={[styles.centerLabel, { color: appTheme.colors.textSecondary }]}>{t('dashboard.preparing')}</Text>
         </View>
       </ScreenContainer>
     );
@@ -51,7 +53,7 @@ const DashboardScreen = () => {
     <ScreenContainer>
       <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
         <Text style={[styles.greeting, { color: appTheme.colors.textPrimary }]}>{greeting}</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Here is your workload snapshot for today.</Text>
+        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('dashboard.subtitle')}</Text>
 
         {isOffline ? <OfflineBanner queueCount={queue.length} /> : null}
 
@@ -66,28 +68,28 @@ const DashboardScreen = () => {
           ]}
         >
           <View style={styles.progressHeaderRow}>
-            <Text style={[styles.progressTitle, { color: appTheme.colors.textPrimary }]}>Today's progress</Text>
+            <Text style={[styles.progressTitle, { color: appTheme.colors.textPrimary }]}>{t('dashboard.progressTitle')}</Text>
             <Text style={[styles.progressRate, { color: appTheme.colors.primary }]}>{taskMetrics.completionRate}%</Text>
           </View>
           <ProgressBar progress={taskMetrics.completionRate} height={12} />
           <View style={styles.metricRow}>
             <View>
-              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Completed</Text>
+              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>{t('common.labels.completed')}</Text>
               <Text style={[styles.metricValue, { color: appTheme.colors.success }]}>{taskMetrics.completedCount}</Text>
             </View>
             <View>
-              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Pending</Text>
+              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>{t('common.labels.pending')}</Text>
               <Text style={[styles.metricValue, { color: appTheme.colors.warning }]}>{taskMetrics.pendingCount}</Text>
             </View>
             <View>
-              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Total</Text>
+              <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>{t('common.labels.total')}</Text>
               <Text style={[styles.metricValue, { color: appTheme.colors.textPrimary }]}>{taskMetrics.totalCount}</Text>
             </View>
           </View>
         </View>
 
         <View style={styles.todayHeader}>
-          <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>Today's tasks</Text>
+          <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>{t('dashboard.todayTasksTitle')}</Text>
           <Pressable
             onPress={() => navigation.navigate('Tasks', { screen: 'TaskList' })}
             style={({ pressed }) => [
@@ -97,7 +99,7 @@ const DashboardScreen = () => {
               },
             ]}
           >
-            <Text style={[styles.linkText, { color: appTheme.colors.primary }]}>View all</Text>
+            <Text style={[styles.linkText, { color: appTheme.colors.primary }]}>{t('common.actions.viewAll')}</Text>
           </Pressable>
         </View>
 
@@ -124,8 +126,8 @@ const DashboardScreen = () => {
           ))
         ) : (
           <EmptyState
-            title="No tasks created today"
-            subtitle="Add a new task to start your daily workflow and maintain visibility."
+            title={t('dashboard.noTasksTodayTitle')}
+            subtitle={t('dashboard.noTasksTodaySubtitle')}
           />
         )}
       </ScrollView>

@@ -13,6 +13,7 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import EmptyState from '../../components/EmptyState';
 import ErrorState from '../../components/ErrorState';
@@ -40,6 +41,7 @@ const TaskListScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<TaskStackParamList, 'TaskList'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const { loading, refreshing, error, infoMessage, initialized, isOffline, queue, mutating } =
     useAppSelector(selectTasksState);
@@ -60,9 +62,9 @@ const TaskListScreen = () => {
       return;
     }
 
-    showToast(infoMessage);
+    showToast(t(infoMessage, { defaultValue: infoMessage }));
     dispatch(clearInfoMessage());
-  }, [dispatch, infoMessage]);
+  }, [dispatch, infoMessage, t]);
 
   const handleRetry = () => {
     dispatch(clearErrorMessage());
@@ -70,13 +72,13 @@ const TaskListScreen = () => {
   };
 
   const handleDelete = (taskId: string) => {
-    Alert.alert('Delete task', 'This task will be removed from your list.', [
+    Alert.alert(t('tasks.alerts.deleteTitle'), t('tasks.alerts.deleteFromListMessage'), [
       {
-        text: 'Cancel',
+        text: t('common.actions.cancel'),
         style: 'cancel',
       },
       {
-        text: 'Delete',
+        text: t('common.actions.delete'),
         style: 'destructive',
         onPress: () => {
           dispatch(deleteTaskById({ id: taskId }));
@@ -87,15 +89,17 @@ const TaskListScreen = () => {
 
   const emptyStateTitle = useMemo(() => {
     if (searchQuery.trim()) {
-      return 'No tasks match your search';
+      return t('tasks.list.emptySearch');
     }
 
     if (statusFilter !== 'All') {
-      return `No ${statusFilter.toLowerCase()} tasks available`;
+      return t('tasks.list.emptyFilter', {
+        status: t(`common.status.${statusFilter.toLowerCase()}`),
+      });
     }
 
-    return 'No tasks yet';
-  }, [searchQuery, statusFilter]);
+    return t('tasks.list.emptyDefault');
+  }, [searchQuery, statusFilter, t]);
 
   const renderDeleteAction = (taskId: string) => {
     return (
@@ -110,7 +114,7 @@ const TaskListScreen = () => {
           },
         ]}
       >
-        <Text style={styles.deleteText}>Delete</Text>
+        <Text style={styles.deleteText}>{t('common.actions.delete')}</Text>
       </Pressable>
     );
   };
@@ -120,7 +124,7 @@ const TaskListScreen = () => {
       <ScreenContainer>
         <View style={styles.centerContainer}>
           <ActivityIndicator size="large" color={appTheme.colors.primary} />
-          <Text style={[styles.centerLabel, { color: appTheme.colors.textSecondary }]}>Loading tasks...</Text>
+          <Text style={[styles.centerLabel, { color: appTheme.colors.textSecondary }]}>{t('tasks.list.loading')}</Text>
         </View>
       </ScreenContainer>
     );
@@ -130,7 +134,7 @@ const TaskListScreen = () => {
     <ScreenContainer>
       <View style={[styles.content, { padding: appTheme.spacing.lg }]}> 
         <View style={styles.headerRow}>
-          <Text style={[styles.screenTitle, { color: appTheme.colors.textPrimary }]}>Task Manager</Text>
+          <Text style={[styles.screenTitle, { color: appTheme.colors.textPrimary }]}>{t('common.misc.taskManager')}</Text>
           <Pressable
             onPress={() => navigation.navigate('CreateTask')}
             style={({ pressed }) => [
@@ -142,14 +146,14 @@ const TaskListScreen = () => {
               },
             ]}
           >
-            <Text style={styles.addButtonText}>+ Add</Text>
+            <Text style={styles.addButtonText}>+ {t('common.actions.add')}</Text>
           </Pressable>
         </View>
 
         <TextInput
           value={searchQuery}
           onChangeText={setSearchQuery}
-          placeholder="Search title or description"
+          placeholder={t('common.placeholders.searchTasks')}
           placeholderTextColor={appTheme.colors.textSecondary}
           style={[
             styles.searchInput,
@@ -162,15 +166,26 @@ const TaskListScreen = () => {
           ]}
         />
 
-        <SegmentedControl options={FILTER_OPTIONS} value={statusFilter} onChange={setStatusFilter} />
+        <SegmentedControl
+          options={FILTER_OPTIONS}
+          value={statusFilter}
+          onChange={setStatusFilter}
+          getLabel={value => {
+            if (value === 'All') {
+              return t('common.misc.all');
+            }
+
+            return t(`common.status.${value.toLowerCase()}`);
+          }}
+        />
 
         {isOffline ? <OfflineBanner queueCount={queue.length} /> : null}
 
         {error && !visibleTasks.length ? (
           <ErrorState
-            title="Could not load tasks"
-            subtitle={error}
-            actionLabel="Retry"
+            title={t('tasks.list.errorTitle')}
+            subtitle={t(error, { defaultValue: error })}
+            actionLabel={t('common.actions.retry')}
             onActionPress={handleRetry}
           />
         ) : (
@@ -193,7 +208,7 @@ const TaskListScreen = () => {
             ListEmptyComponent={
               <EmptyState
                 title={emptyStateTitle}
-                subtitle="Create a new medical task and keep your workflow organized."
+                subtitle={t('tasks.list.emptySubtitle')}
               />
             }
           />
@@ -203,7 +218,9 @@ const TaskListScreen = () => {
       {mutating ? (
         <View style={styles.bottomLoaderContainer}>
           <ActivityIndicator size="small" color={appTheme.colors.primary} />
-          <Text style={[styles.bottomLoaderText, { color: appTheme.colors.textSecondary }]}>Saving changes...</Text>
+          <Text style={[styles.bottomLoaderText, { color: appTheme.colors.textSecondary }]}>
+            {t('tasks.list.bottomSaving')}
+          </Text>
         </View>
       ) : null}
 

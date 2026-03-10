@@ -1,6 +1,7 @@
 /* eslint-env jest */
 
 import 'react-native-gesture-handler/jestSetup';
+import './src/i18n';
 
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');

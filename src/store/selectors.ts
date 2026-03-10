@@ -9,6 +9,10 @@ export const selectThemeMode = createSelector(
   selectPreferencesState,
   preferencesState => preferencesState.themeMode,
 );
+export const selectAppLanguage = createSelector(
+  selectPreferencesState,
+  preferencesState => preferencesState.language,
+);
 
 export const selectSessionState = (state: RootState) => state.session;
 export const selectCurrentUser = createSelector(selectSessionState, sessionState => sessionState.user);

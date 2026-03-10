@@ -1,0 +1,254 @@
+{
+  "common": {
+    "appName": "MediTask Pro",
+    "actions": {
+      "add": "එකතු කරන්න",
+      "getStarted": "ආරම්භ කරන්න",
+      "login": "පිවිසෙන්න",
+      "createAccount": "ගිණුම සාදන්න",
+      "saveTask": "කාර්යය සුරකින්න",
+      "saveChanges": "වෙනස්කම් සුරකින්න",
+      "saveName": "නම සුරකින්න",
+      "editName": "නම සංස්කරණය",
+      "editTask": "කාර්යය සංස්කරණය",
+      "deleteTask": "කාර්යය මකන්න",
+      "syncNow": "දැන් සමමුහුර්ත කරන්න",
+      "viewAll": "සියල්ල බලන්න",
+      "goBack": "ආපසු යන්න",
+      "cancel": "අවලංගු",
+      "delete": "මකන්න",
+      "retry": "නැවත උත්සාහ කරන්න",
+      "signOut": "ඉවත් වන්න",
+      "markAs": "{{status}} ලෙස ලකුණු කරන්න"
+    },
+    "labels": {
+      "title": "මාතෘකාව",
+      "description": "විස්තරය",
+      "priority": "ප්‍රමුඛතාව",
+      "created": "සාදන ලදි",
+      "lastUpdated": "අවසන් යාවත්කාලීන කිරීම",
+      "total": "මුළු",
+      "completed": "සම්පූර්ණ",
+      "pending": "අපේක්ෂිත",
+      "totalTasks": "මුළු කාර්ය",
+      "completedTasks": "සම්පූර්ණ කාර්ය",
+      "pendingSyncChanges": "සමමුහුර්ත වීමට ඇති වෙනස්කම්",
+      "networkStatus": "ජාල තත්ත්වය",
+      "lastSync": "අවසන් සමමුහුර්තය",
+      "displayName": "ප්‍රදර්ශන නම",
+      "themeMode": "තේමාව",
+      "currentMode": "දැනට ඇති තේමාව",
+      "language": "භාෂාව",
+      "lastSynced": "අවසන් සමමුහුර්තය"
+    },
+    "placeholders": {
+      "searchTasks": "මාතෘකාව හෝ විස්තරය සොයන්න",
+      "titleExample": "රෝගී වාර්තා පසු විපරම්",
+      "descriptionExample": "සන්දර්භය, රෝගී සටහන් සහ පසු විපරම් විස්තර එක් කරන්න",
+      "enterDisplayName": "ඔබේ ප්‍රදර්ශන නම ඇතුල් කරන්න",
+      "email": "ඊමේල්",
+      "password": "මුරපදය",
+      "fullName": "පූර්ණ නම"
+    },
+    "theme": {
+      "system": "පද්ධතිය",
+      "light": "ආලෝක",
+      "dark": "අඳුරු"
+    },
+    "language": {
+      "en": "English",
+      "si": "සිංහල",
+      "ta": "தமிழ்"
+    },
+    "priority": {
+      "low": "අඩු",
+      "medium": "මධ්‍යම",
+      "high": "ඉහළ"
+    },
+    "status": {
+      "pending": "අපේක්ෂිත",
+      "completed": "සම්පූර්ණ"
+    },
+    "network": {
+      "offline": "නොඅන්තර්ජාල",
+      "online": "අන්තර්ජාල"
+    },
+    "greetings": {
+      "morning": "සුභ උදෑසනක්",
+      "afternoon": "සුභ මධ්‍යහ්නයක්",
+      "evening": "සුභ සන්ධ්‍යාවක්"
+    },
+    "misc": {
+      "noDescription": "විස්තරයක් නැත",
+      "noDescriptionProvided": "විස්තරයක් ලබාදී නොමැත",
+      "noEmailOnFile": "ඊමේල් ලිපිනයක් නොමැත",
+      "medicalProfessional": "වෛද්‍ය වෘත්තිකයා",
+      "notSyncedYet": "තවම සමමුහුර්ත වී නැත",
+      "taskManager": "කාර්ය කළමනාකරු",
+      "offline": "නොඅන්තර්ජාල",
+      "all": "සියල්ල"
+    }
+  },
+  "splash": {
+    "subtitle": "වෛද්‍ය වෘත්තිකයන් සඳහා බුද්ධිමත් කාර්ය ප්‍රවාහය"
+  },
+  "onboarding": {
+    "subtitle": "ප්‍රමුඛතා කළමනාකරණය කර, මඟ හැරීම් අඩු කර, දෛනික ඵලදායීතාවය අනුගමනය කරන්න.",
+    "bulletFast": "වේගවත් කාර්ය සටහන් සහ සංස්කරණය",
+    "bulletOffline": "නොඅන්තර්ජාල ආරක්ෂිත ප්‍රවාහය සහ auto sync",
+    "bulletAnalytics": "සජීවී ඩෑෂ්බෝඩ් සහ විශ්ලේෂණ"
+  },
+  "auth": {
+    "loginTitle": "නැවත සාදරයෙන් පිළිගනිමු",
+    "loginSubtitle": "අද වෛද්‍ය කාර්ය කළමනාකරණයට පිවිසෙන්න.",
+    "signupTitle": "ගිණුම සාදන්න",
+    "signupSubtitle": "ඔබගේ වැඩබිම සකසා කාර්ය කළමනාකරණය ආරම්භ කරන්න.",
+    "createAccountLink": "ගිණුම සාදන්න"
+  },
+  "dashboard": {
+    "preparing": "ඩෑෂ්බෝඩ් සූදානම් කරමින්...",
+    "subtitle": "අද ඔබගේ වැඩ බර සාරාංශය මෙන්න.",
+    "progressTitle": "අද ප්‍රගතිය",
+    "todayTasksTitle": "අද කාර්ය",
+    "noTasksTodayTitle": "අද සාදන ලද කාර්ය නැත",
+    "noTasksTodaySubtitle": "නව කාර්යයක් එකතු කර දෛනික ප්‍රවාහය ආරම්භ කරන්න."
+  },
+  "tasks": {
+    "filters": {
+      "all": "සියල්ල",
+      "pending": "අපේක්ෂිත",
+      "completed": "සම්පූර්ණ"
+    },
+    "list": {
+      "loading": "කාර්ය පූරණය වෙමින්...",
+      "addButton": "+ එකතු කරන්න",
+      "errorTitle": "කාර්ය පූරණය කළ නොහැක",
+      "emptySearch": "ඔබගේ සෙවුමට ගැළපෙන කාර්ය නැත",
+      "emptyFilter": "{{status}} කාර්ය නැත",
+      "emptyDefault": "තවම කාර්ය නැත",
+      "emptySubtitle": "නව වෛද්‍ය කාර්යයක් සාදා ඔබගේ ප්‍රවාහය සංවිධානය කරන්න.",
+      "bottomSaving": "වෙනස්කම් සුරකිමින්...",
+      "deleteAction": "මකන්න"
+    },
+    "create": {
+      "title": "වෛද්‍ය කාර්යයක් සාදන්න",
+      "subtitle": "රෝගී පසු විපරම් මඟ නොහැරීමට මූලික විස්තර එකතු කරන්න."
+    },
+    "edit": {
+      "title": "කාර්යය සංස්කරණය",
+      "subtitle": "විස්තර යාවත්කාලීන කර ප්‍රවාහය නිවැරදිව තබාගන්න.",
+      "notFoundTitle": "කාර්යය තවදුරටත් නොමැත",
+      "notFoundSubtitle": "කරුණාකර ලැයිස්තුවට ආපසු ගොස් වෙනත් කාර්යයක් තෝරන්න."
+    },
+    "detail": {
+      "notFoundTitle": "කාර්යය සොයාගත නොහැක",
+      "notFoundSubtitle": "මෙය දැනටමත් මකා තිබිය හැක.",
+      "pendingSync": "සේවාදායකයට සමමුහුර්ත වීමට අපේක්ෂිතයි."
+    },
+    "alerts": {
+      "deleteTitle": "කාර්යය මකන්න",
+      "deleteFromListMessage": "මෙම කාර්යය ඔබගේ ලැයිස්තුවෙන් ඉවත් වේ.",
+      "deleteFromDetailMessage": "මෙම ක්‍රියාව අහෝසි කළ නොහැක."
+    }
+  },
+  "analytics": {
+    "title": "ඵලදායීතා විශ්ලේෂණ",
+    "subtitle": "සම්පූර්ණතා ප්‍රවණතා සහ වැඩ බර සමතුලිතතාවය නිරීක්ෂණය කරන්න.",
+    "noDataTitle": "තවම දත්ත නොමැත",
+    "noDataSubtitle": "විශ්ලේෂණ ලබාගැනීමට කාර්ය සාදා සම්පූර්ණ ලෙස ලකුණු කරන්න.",
+    "completionProgress": "සම්පූර්ණතා ප්‍රගතිය",
+    "priorityDistribution": "ප්‍රමුඛතා බෙදාහැරීම"
+  },
+  "profile": {
+    "account": "ගිණුම",
+    "appearance": "පෙනුම",
+    "productivitySummary": "ඵලදායීතා සාරාංශය"
+  },
+  "tabs": {
+    "dashboard": "ඩෑෂ්බෝඩ්",
+    "tasks": "කාර්ය",
+    "analytics": "විශ්ලේෂණ",
+    "profile": "පැතිකඩ"
+  },
+  "form": {
+    "validation": {
+      "titleRequired": "මාතෘකාව අවශ්‍යයි",
+      "titleMin": "මාතෘකාව අක්ෂර 3කට වැඩි විය යුතුය",
+      "titleMax": "මාතෘකාව අක්ෂර 80ක් දක්වා පමණි",
+      "descriptionRequired": "විස්තරය අවශ්‍යයි",
+      "descriptionMax": "විස්තරය අක්ෂර 300ක් දක්වා පමණි",
+      "priorityRequired": "ප්‍රමුඛතාව අවශ්‍යයි"
+    }
+  },
+  "session": {
+    "validation": {
+      "nameMin": "නම අක්ෂර 2කට වැඩි විය යුතුය.",
+      "nameMax": "නම අක්ෂර 50කට අඩු විය යුතුය.",
+      "emailRequired": "ඊමේල් අවශ්‍යයි."
+    },
+    "errors": {
+      "restoreSession": "ඔබගේ session නැවත ලබාගත නොහැක.",
+      "saveSession": "ගිණුම් session සුරැකිය නොහැක.",
+      "noActiveAccount": "සක්‍රීය ගිණුමක් නොමැත.",
+      "updateNameNow": "දැනට නම යාවත්කාලීන කළ නොහැක.",
+      "signOut": "ඉවත් වීමට නොහැකි විය. නැවත උත්සාහ කරන්න.",
+      "failedRestore": "ගිණුම් session නැවත ලබාගැනීම අසාර්ථකයි.",
+      "failedStart": "ගිණුම් session ආරම්භ කිරීම අසාර්ථකයි.",
+      "failedUpdateName": "ප්‍රදර්ශන නම යාවත්කාලීන කිරීම අසාර්ථකයි.",
+      "failedSignOut": "ඉවත් වීම අසාර්ථකයි."
+    }
+  },
+  "messages": {
+    "syncFailed": "සමමුහුර්ත කිරීම අසාර්ථකයි",
+    "syncCompleted": "සමමුහුර්ත කිරීම සාර්ථකයි.",
+    "themeUpdated": "තේමාව {{mode}} ලෙස සකස් කළා.",
+    "themeUpdateFailed": "තේමා අභිරුචිය යාවත්කාලීන කළ නොහැක.",
+    "languageUpdated": "භාෂාව {{language}} ලෙස වෙනස් කළා.",
+    "languageUpdateFailed": "භාෂා අභිරුචිය යාවත්කාලීන කළ නොහැක.",
+    "displayNameUpdated": "ප්‍රදර්ශන නම යාවත්කාලීන කළා.",
+    "displayNameUpdateFailed": "ප්‍රදර්ශන නම යාවත්කාලීන කළ නොහැක.",
+    "signOutFailed": "ඉවත් වීමට නොහැකි විය. නැවත උත්සාහ කරන්න.",
+    "signedOutCacheWarning": "ඉවත් විය. දේශීය කාර්ය cache සම්පූර්ණයෙන් මැකී නොමැත.",
+    "navigationNotReady": "නාවිකරණය සූදානම් නැත.",
+    "signedOutSuccess": "සාර්ථකව ඉවත් විය.",
+    "loginFieldsRequired": "කරුණාකර ඊමේල් සහ මුරපදය ඇතුල් කරන්න.",
+    "loginFailed": "පිවිසීමට නොහැකි විය. නැවත උත්සාහ කරන්න.",
+    "signupFieldsRequired": "කරුණාකර සියලු ක්ෂේත්‍ර පුරවන්න.",
+    "signupFailed": "දැනට ගිණුමක් සාදාගත නොහැක.",
+    "taskCreateFailed": "කාර්යය සාදීම අසාර්ථකයි",
+    "taskSaveChangesFailed": "කාර්ය වෙනස්කම් සුරැකීම අසාර්ථකයි",
+    "taskStatusUpdateFailed": "කාර්ය තත්ත්වය යාවත්කාලීන කිරීම අසාර්ථකයි",
+    "taskDeleteFailed": "කාර්යය මැකීම අසාර්ථකයි"
+  },
+  "store": {
+    "tasks": {
+      "offlineChangesSynced": "නොඅන්තර්ජාල වෙනස්කම් සාර්ථකව සමමුහුර්ත විය.",
+      "offlineModeActive": "නොඅන්තර්ජාල මෝඩය සක්‍රීයයි.",
+      "queuedChangesWaiting": "වෙනස්කම් {{count}}ක් සමමුහුර්ත වීමට බලාපොරොත්තු වේ.",
+      "offlineModePendingAutoSync": "නොඅන්තර්ජාල මෝඩය: අපේක්ෂිත වෙනස්කම් ස්වයංක්‍රීයව සමමුහුර්ත වේ.",
+      "offlineModeShowingCached": "නොඅන්තර්ජාල මෝඩය: cache කරන ලද කාර්ය පෙන්වයි.",
+      "stillOfflinePendingSafe": "තවම නොඅන්තර්ජාලයි. අපේක්ෂිත වෙනස්කම් ආරක්ෂිතයි.",
+      "stillOfflineShowingLocal": "තවම නොඅන්තර්ජාලයි. දේශීය කාර්ය පෙන්වයි.",
+      "unableClearLocalData": "දේශීය කාර්ය දත්ත මැකිය නොහැක.",
+      "taskCreatedSuccess": "කාර්යය සාර්ථකව සාදන ලදී.",
+      "taskSavedOffline": "නොඅන්තර්ජාලයෙන් සුරකිණි. කාර්යය පසුව සමමුහුර්ත වේ.",
+      "taskUpdatedLocal": "දේශීයව යාවත්කාලීන කළා. වෙනස්කම පසුව සමමුහුර්ත වේ.",
+      "taskUpdatedSuccess": "කාර්යය සාර්ථකව යාවත්කාලීන විය.",
+      "taskUpdateQueued": "ජාලය නොමැත. යාවත්කාලීනය සමමුහුර්ත සඳහා queue කළා.",
+      "localTaskDeleted": "දේශීය කාර්යය මකා ඇත.",
+      "taskDeletedSuccess": "කාර්යය සාර්ථකව මකා ඇත.",
+      "taskDeleteQueued": "මැකීම queue කළා. ජාලය ආපසු ලැබෙන විට සමමුහුර්ත වේ.",
+      "failedLoad": "කාර්ය පූරණය අසාර්ථකයි",
+      "failedRefresh": "කාර්ය refresh අසාර්ථකයි",
+      "failedClear": "දේශීය කාර්ය දත්ත මැකීම අසාර්ථකයි",
+      "failedCreate": "කාර්යය සාදීම අසාර්ථකයි",
+      "failedUpdate": "කාර්යය යාවත්කාලීන කිරීම අසාර්ථකයි",
+      "failedDelete": "කාර්යය මැකීම අසාර්ථකයි",
+      "unexpectedError": "අනපේක්ෂිත දෝෂයක්"
+    }
+  },
+  "alerts": {
+    "signOutTitle": "ඉවත් වන්න",
+    "signOutMessage": "MediTask Pro භාවිතයට නැවත පිවිසිය යුතුය."
+  }
+}

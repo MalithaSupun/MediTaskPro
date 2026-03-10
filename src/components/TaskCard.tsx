@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../hooks/useAppTheme';
 import type { Task } from '../types/task';
@@ -13,6 +14,7 @@ interface TaskCardProps {
 
 const TaskCard = ({ task, onPress }: TaskCardProps) => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   return (
     <Pressable
@@ -32,11 +34,15 @@ const TaskCard = ({ task, onPress }: TaskCardProps) => {
         <Text style={[styles.title, { color: appTheme.colors.textPrimary }]} numberOfLines={2}>
           {task.title}
         </Text>
-        {!task.synced ? <Text style={[styles.offlineLabel, { color: appTheme.colors.warning }]}>Offline</Text> : null}
+        {!task.synced ? (
+          <Text style={[styles.offlineLabel, { color: appTheme.colors.warning }]}>
+            {t('common.network.offline')}
+          </Text>
+        ) : null}
       </View>
 
       <Text style={[styles.description, { color: appTheme.colors.textSecondary }]} numberOfLines={2}>
-        {task.description || 'No description'}
+        {task.description || t('common.misc.noDescription')}
       </Text>
 
       <View style={styles.metaRow}>

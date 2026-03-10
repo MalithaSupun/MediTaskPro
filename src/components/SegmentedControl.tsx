@@ -7,9 +7,15 @@ interface SegmentedControlProps<T extends string> {
   options: readonly T[];
   value: T;
   onChange: (value: T) => void;
+  getLabel?: (value: T) => string;
 }
 
-function SegmentedControl<T extends string>({ options, value, onChange }: SegmentedControlProps<T>) {
+function SegmentedControl<T extends string>({
+  options,
+  value,
+  onChange,
+  getLabel,
+}: SegmentedControlProps<T>) {
   const { appTheme } = useAppTheme();
   const inactiveOptionTextStyle = React.useMemo(
     () => ({ color: appTheme.colors.textSecondary }),
@@ -49,7 +55,7 @@ function SegmentedControl<T extends string>({ options, value, onChange }: Segmen
                 isActive ? styles.optionTextActive : inactiveOptionTextStyle,
               ]}
             >
-              {option}
+              {getLabel ? getLabel(option) : option}
             </Text>
           </Pressable>
         );

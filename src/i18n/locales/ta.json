@@ -1,0 +1,254 @@
+{
+  "common": {
+    "appName": "MediTask Pro",
+    "actions": {
+      "add": "சேர்க்க",
+      "getStarted": "தொடங்கு",
+      "login": "உள்நுழை",
+      "createAccount": "கணக்கு உருவாக்கு",
+      "saveTask": "பணியை சேமிக்க",
+      "saveChanges": "மாற்றங்களை சேமிக்க",
+      "saveName": "பெயரை சேமிக்க",
+      "editName": "பெயரை திருத்து",
+      "editTask": "பணியை திருத்து",
+      "deleteTask": "பணியை நீக்கு",
+      "syncNow": "இப்போது ஒத்திசை",
+      "viewAll": "அனைத்தையும் காண்",
+      "goBack": "பின்னுக்கு செல்",
+      "cancel": "ரத்து",
+      "delete": "நீக்கு",
+      "retry": "மீண்டும் முயற்சி செய்",
+      "signOut": "வெளியேறு",
+      "markAs": "{{status}} ஆக குறி"
+    },
+    "labels": {
+      "title": "தலைப்பு",
+      "description": "விளக்கம்",
+      "priority": "முன்னுரிமை",
+      "created": "உருவாக்கப்பட்டது",
+      "lastUpdated": "கடைசியாக புதுப்பிக்கப்பட்டது",
+      "total": "மொத்தம்",
+      "completed": "முடிந்தது",
+      "pending": "நிலுவை",
+      "totalTasks": "மொத்த பணிகள்",
+      "completedTasks": "முடிந்த பணிகள்",
+      "pendingSyncChanges": "ஒத்திசைக்க நிலுவை மாற்றங்கள்",
+      "networkStatus": "நெட்வொர்க் நிலை",
+      "lastSync": "கடைசி ஒத்திசைவு",
+      "displayName": "காண்பிக்கும் பெயர்",
+      "themeMode": "தீம் நிலை",
+      "currentMode": "தற்போதைய நிலை",
+      "language": "மொழி",
+      "lastSynced": "கடைசி ஒத்திசைவு"
+    },
+    "placeholders": {
+      "searchTasks": "தலைப்பு அல்லது விளக்கத்தை தேடு",
+      "titleExample": "நோயாளர் அறிக்கை பின்தொடர்பு",
+      "descriptionExample": "சூழல், குறிப்புகள் மற்றும் பின்தொடர்பு விவரங்களைச் சேர்க்கவும்",
+      "enterDisplayName": "உங்கள் காண்பிக்கும் பெயரை உள்ளிடவும்",
+      "email": "மின்னஞ்சல்",
+      "password": "கடவுச்சொல்",
+      "fullName": "முழுப்பெயர்"
+    },
+    "theme": {
+      "system": "கணினி",
+      "light": "ஒளி",
+      "dark": "இருள்"
+    },
+    "language": {
+      "en": "English",
+      "si": "සිංහල",
+      "ta": "தமிழ்"
+    },
+    "priority": {
+      "low": "குறைந்த",
+      "medium": "மத்திய",
+      "high": "உயர்"
+    },
+    "status": {
+      "pending": "நிலுவை",
+      "completed": "முடிந்தது"
+    },
+    "network": {
+      "offline": "ஆஃப்லைன்",
+      "online": "ஆன்லைன்"
+    },
+    "greetings": {
+      "morning": "காலை வணக்கம்",
+      "afternoon": "மதிய வணக்கம்",
+      "evening": "மாலை வணக்கம்"
+    },
+    "misc": {
+      "noDescription": "விளக்கம் இல்லை",
+      "noDescriptionProvided": "விளக்கம் வழங்கப்படவில்லை",
+      "noEmailOnFile": "மின்னஞ்சல் இல்லை",
+      "medicalProfessional": "மருத்துவ நிபுணர்",
+      "notSyncedYet": "இன்னும் ஒத்திசைக்கப்படவில்லை",
+      "taskManager": "பணி மேலாளர்",
+      "offline": "ஆஃப்லைன்",
+      "all": "அனைத்தும்"
+    }
+  },
+  "splash": {
+    "subtitle": "மருத்துவ நிபுணர்களுக்கான சுறுசுறுப்பான பணி நடைமுறை"
+  },
+  "onboarding": {
+    "subtitle": "முன்னுரிமைகளை நிர்வகித்து, தவறவிடும் பணிகளை குறைத்து, தினசரி உற்பத்தித்திறனை கண்காணிக்கவும்.",
+    "bulletFast": "வேகமான பணி பதிவு மற்றும் திருத்தம்",
+    "bulletOffline": "ஆஃப்லைன் பாதுகாப்பான நடைமுறை மற்றும் auto sync",
+    "bulletAnalytics": "நேரடி டாஷ்போர்டு மற்றும் பகுப்பாய்வு"
+  },
+  "auth": {
+    "loginTitle": "மீண்டும் வரவேற்கிறோம்",
+    "loginSubtitle": "இன்றைய மருத்துவ பணிகளை நிர்வகிக்க உள்நுழையவும்.",
+    "signupTitle": "கணக்கு உருவாக்கு",
+    "signupSubtitle": "உங்கள் வேலைத்தளத்தை அமைத்து பணிகளைத் தொடங்கவும்.",
+    "createAccountLink": "கணக்கு உருவாக்கு"
+  },
+  "dashboard": {
+    "preparing": "டாஷ்போர்டு தயாராகிறது...",
+    "subtitle": "இன்றைய பணிச்சுமை சுருக்கம் இதோ.",
+    "progressTitle": "இன்றைய முன்னேற்றம்",
+    "todayTasksTitle": "இன்றைய பணிகள்",
+    "noTasksTodayTitle": "இன்று உருவாக்கப்பட்ட பணிகள் இல்லை",
+    "noTasksTodaySubtitle": "புதிய பணியை சேர்த்து தினசரி நடைமுறையை தொடங்கவும்."
+  },
+  "tasks": {
+    "filters": {
+      "all": "அனைத்தும்",
+      "pending": "நிலுவை",
+      "completed": "முடிந்தது"
+    },
+    "list": {
+      "loading": "பணிகள் ஏற்றப்படுகிறது...",
+      "addButton": "+ சேர்",
+      "errorTitle": "பணிகளை ஏற்ற முடியவில்லை",
+      "emptySearch": "தேடலுக்கு பொருந்தும் பணிகள் இல்லை",
+      "emptyFilter": "{{status}} பணிகள் இல்லை",
+      "emptyDefault": "இன்னும் பணிகள் இல்லை",
+      "emptySubtitle": "புதிய மருத்துவ பணியை உருவாக்கி உங்கள் நடைமுறையை ஒழுங்குபடுத்து.",
+      "bottomSaving": "மாற்றங்கள் சேமிக்கப்படுகின்றன...",
+      "deleteAction": "நீக்கு"
+    },
+    "create": {
+      "title": "மருத்துவ பணி உருவாக்கு",
+      "subtitle": "முக்கிய விவரங்களைச் சேர்த்து பின்தொடர்புகள் தவறாமல் செய்."
+    },
+    "edit": {
+      "title": "பணியை திருத்து",
+      "subtitle": "விவரங்களைப் புதுப்பித்து நடைமுறையை சரியாக வைத்திரு.",
+      "notFoundTitle": "பணி இனி கிடைக்கவில்லை",
+      "notFoundSubtitle": "பட்டியலுக்கு திரும்பி மற்றொரு பணியைத் தேர்வு செய்யவும்."
+    },
+    "detail": {
+      "notFoundTitle": "பணி கிடைக்கவில்லை",
+      "notFoundSubtitle": "இது ஏற்கனவே நீக்கப்பட்டிருக்கலாம்.",
+      "pendingSync": "சர்வருடன் ஒத்திசைவு நிலுவையில் உள்ளது."
+    },
+    "alerts": {
+      "deleteTitle": "பணியை நீக்கு",
+      "deleteFromListMessage": "இந்த பணி உங்கள் பட்டியலில் இருந்து அகற்றப்படும்.",
+      "deleteFromDetailMessage": "இந்த செயலை மாற்ற முடியாது."
+    }
+  },
+  "analytics": {
+    "title": "உற்பத்தித்திறன் பகுப்பாய்வு",
+    "subtitle": "முடிவடைப்பு போக்குகள் மற்றும் பணிச்சுமை சமநிலையை கண்காணிக்கவும்.",
+    "noDataTitle": "இன்னும் தரவு இல்லை",
+    "noDataSubtitle": "பணிகளை உருவாக்கி முடிந்ததாக குறிக்கவும்.",
+    "completionProgress": "முடிவடைப்பு முன்னேற்றம்",
+    "priorityDistribution": "முன்னுரிமை பகிர்வு"
+  },
+  "profile": {
+    "account": "கணக்கு",
+    "appearance": "தோற்றம்",
+    "productivitySummary": "உற்பத்தித் திறன் சுருக்கம்"
+  },
+  "tabs": {
+    "dashboard": "டாஷ்போர்டு",
+    "tasks": "பணிகள்",
+    "analytics": "பகுப்பாய்வு",
+    "profile": "சுயவிவரம்"
+  },
+  "form": {
+    "validation": {
+      "titleRequired": "தலைப்பு அவசியம்",
+      "titleMin": "தலைப்பு குறைந்தது 3 எழுத்துகள் இருக்க வேண்டும்",
+      "titleMax": "தலைப்பு 80 எழுத்துகள் வரை மட்டுமே",
+      "descriptionRequired": "விளக்கம் அவசியம்",
+      "descriptionMax": "விளக்கம் 300 எழுத்துகள் வரை மட்டுமே",
+      "priorityRequired": "முன்னுரிமை அவசியம்"
+    }
+  },
+  "session": {
+    "validation": {
+      "nameMin": "பெயர் குறைந்தது 2 எழுத்துகள் இருக்க வேண்டும்.",
+      "nameMax": "பெயர் 50 எழுத்துகளுக்கு உட்பட வேண்டும்.",
+      "emailRequired": "மின்னஞ்சல் அவசியம்."
+    },
+    "errors": {
+      "restoreSession": "உங்கள் session ஐ மீட்க முடியவில்லை.",
+      "saveSession": "உங்கள் கணக்கு session ஐ சேமிக்க முடியவில்லை.",
+      "noActiveAccount": "செயலில் உள்ள கணக்கு இல்லை.",
+      "updateNameNow": "இந்த நேரத்தில் பெயரை புதுப்பிக்க முடியவில்லை.",
+      "signOut": "வெளியேற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+      "failedRestore": "கணக்கு session மீட்க தோல்வி.",
+      "failedStart": "கணக்கு session தொடங்க தோல்வி.",
+      "failedUpdateName": "காண்பிப்பு பெயர் புதுப்பிப்பு தோல்வி.",
+      "failedSignOut": "வெளியேறுதல் தோல்வி."
+    }
+  },
+  "messages": {
+    "syncFailed": "ஒத்திசைவு தோல்வி",
+    "syncCompleted": "ஒத்திசைவு முடிந்தது.",
+    "themeUpdated": "தீம் {{mode}} ஆக மாற்றப்பட்டது.",
+    "themeUpdateFailed": "தீம் விருப்பத்தை புதுப்பிக்க முடியவில்லை.",
+    "languageUpdated": "மொழி {{language}} ஆக மாற்றப்பட்டது.",
+    "languageUpdateFailed": "மொழி விருப்பத்தை புதுப்பிக்க முடியவில்லை.",
+    "displayNameUpdated": "காண்பிப்பு பெயர் புதுப்பிக்கப்பட்டது.",
+    "displayNameUpdateFailed": "காண்பிப்பு பெயரை புதுப்பிக்க முடியவில்லை.",
+    "signOutFailed": "வெளியேற முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+    "signedOutCacheWarning": "வெளியேறிவிட்டீர்கள். உள்ளூர் cache முழுவதும் அழிக்கப்படவில்லை.",
+    "navigationNotReady": "வழிசெலுத்தல் தயாராக இல்லை.",
+    "signedOutSuccess": "வெற்றிகரமாக வெளியேறிவிட்டீர்கள்.",
+    "loginFieldsRequired": "மின்னஞ்சல் மற்றும் கடவுச்சொல் உள்ளிடவும்.",
+    "loginFailed": "உள்நுழைய முடியவில்லை. மீண்டும் முயற்சிக்கவும்.",
+    "signupFieldsRequired": "அனைத்து புலங்களையும் நிரப்பவும்.",
+    "signupFailed": "இப்போது கணக்கை உருவாக்க முடியவில்லை.",
+    "taskCreateFailed": "பணி உருவாக்க தோல்வி",
+    "taskSaveChangesFailed": "பணி மாற்றங்களை சேமிக்க தோல்வி",
+    "taskStatusUpdateFailed": "பணி நிலையை புதுப்பிக்க தோல்வி",
+    "taskDeleteFailed": "பணியை நீக்க தோல்வி"
+  },
+  "store": {
+    "tasks": {
+      "offlineChangesSynced": "ஆஃப்லைன் மாற்றங்கள் வெற்றிகரமாக ஒத்திசைக்கப்பட்டன.",
+      "offlineModeActive": "ஆஃப்லைன் நிலை செயல்பாட்டில் உள்ளது.",
+      "queuedChangesWaiting": "{{count}} மாற்றங்கள் ஒத்திசைக்க காத்திருக்கின்றன.",
+      "offlineModePendingAutoSync": "ஆஃப்லைன் நிலை: நிலுவை மாற்றங்கள் தானாக ஒத்திசையும்.",
+      "offlineModeShowingCached": "ஆஃப்லைன் நிலை: cache செய்யப்பட்ட பணிகள் காட்டப்படுகின்றன.",
+      "stillOfflinePendingSafe": "இன்னும் ஆஃப்லைன். நிலுவை மாற்றங்கள் பாதுகாப்பாக உள்ளன.",
+      "stillOfflineShowingLocal": "இன்னும் ஆஃப்லைன். உள்ளூர் பணிகள் காட்டப்படுகின்றன.",
+      "unableClearLocalData": "உள்ளூர் பணி தரவை அழிக்க முடியவில்லை.",
+      "taskCreatedSuccess": "பணி வெற்றிகரமாக உருவாக்கப்பட்டது.",
+      "taskSavedOffline": "ஆஃப்லைனில் சேமிக்கப்பட்டது. பின்னர் ஒத்திசைக்கும்.",
+      "taskUpdatedLocal": "உள்ளூரில் புதுப்பிக்கப்பட்டது. பின்னர் ஒத்திசைக்கும்.",
+      "taskUpdatedSuccess": "பணி வெற்றிகரமாக புதுப்பிக்கப்பட்டது.",
+      "taskUpdateQueued": "நெட்வொர்க் இல்லை. புதுப்பிப்பு queue செய்யப்பட்டது.",
+      "localTaskDeleted": "உள்ளூர் பணி நீக்கப்பட்டது.",
+      "taskDeletedSuccess": "பணி வெற்றிகரமாக நீக்கப்பட்டது.",
+      "taskDeleteQueued": "நீக்கம் queue செய்யப்பட்டது. நெட்வொர்க் வந்ததும் ஒத்திசைக்கும்.",
+      "failedLoad": "பணிகளை ஏற்ற தோல்வி",
+      "failedRefresh": "பணிகளை புதுப்பிக்க தோல்வி",
+      "failedClear": "உள்ளூர் பணி தரவை அழிக்க தோல்வி",
+      "failedCreate": "பணி உருவாக்க தோல்வி",
+      "failedUpdate": "பணி புதுப்பிப்பு தோல்வி",
+      "failedDelete": "பணி நீக்கம் தோல்வி",
+      "unexpectedError": "எதிர்பாராத பிழை"
+    }
+  },
+  "alerts": {
+    "signOutTitle": "வெளியேறு",
+    "signOutMessage": "MediTask Pro-ஐ பயன்படுத்த மீண்டும் உள்நுழைய வேண்டும்."
+  }
+}

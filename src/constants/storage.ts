@@ -4,4 +4,5 @@ export const STORAGE_KEYS = {
   TASK_LAST_SYNCED_AT: '@meditaskpro/tasks-last-synced-at',
   USER_SESSION: '@meditaskpro/user-session',
   THEME_MODE: '@meditaskpro/theme-mode',
+  APP_LANGUAGE: '@meditaskpro/app-language',
 } as const;

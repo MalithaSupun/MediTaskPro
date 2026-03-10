@@ -5,6 +5,7 @@ import {
   type CompositeNavigationProp,
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { AuthStackParamList, RootStackParamList } from '../../navigation/types';
@@ -22,6 +23,7 @@ const LoginScreen = () => {
   const navigation = useNavigation<LoginNavigation>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
   const { saving } = useAppSelector(selectSessionState);
 
   const [email, setEmail] = useState('');
@@ -29,7 +31,7 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
-      showToast('Please enter email and password.');
+      showToast(t('messages.loginFieldsRequired'));
       return;
     }
 
@@ -40,14 +42,14 @@ const LoginScreen = () => {
     );
 
     if (startSession.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Unable to sign in. Please try again.');
+      showToast(t(resultAction.payload ?? 'messages.loginFailed', { defaultValue: t('messages.loginFailed') }));
       return;
     }
 
     const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
 
     if (!rootNavigation) {
-      showToast('Navigation is not ready.');
+      showToast(t('messages.navigationNotReady'));
       return;
     }
 
@@ -56,15 +58,15 @@ const LoginScreen = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: appTheme.colors.background }]}> 
-      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>Welcome back</Text>
-      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Sign in to manage today&apos;s medical tasks.</Text>
+      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('auth.loginTitle')}</Text>
+      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('auth.loginSubtitle')}</Text>
 
       <TextInput
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
-        placeholder="Email"
+        placeholder={t('common.placeholders.email')}
         placeholderTextColor={appTheme.colors.textSecondary}
         style={[
           styles.input,
@@ -81,7 +83,7 @@ const LoginScreen = () => {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        placeholder="Password"
+        placeholder={t('common.placeholders.password')}
         placeholderTextColor={appTheme.colors.textSecondary}
         style={[
           styles.input,
@@ -106,11 +108,11 @@ const LoginScreen = () => {
           },
         ]}
       >
-        {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>Login</Text>}
+        {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.buttonText}>{t('common.actions.login')}</Text>}
       </Pressable>
 
       <Pressable onPress={() => navigation.navigate('Signup')} style={styles.linkContainer}>
-        <Text style={[styles.linkText, { color: appTheme.colors.primary }]}>Create account</Text>
+        <Text style={[styles.linkText, { color: appTheme.colors.primary }]}>{t('auth.createAccountLink')}</Text>
       </Pressable>
     </View>
   );

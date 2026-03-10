@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
 import { useAppTheme } from '../hooks/useAppTheme';
@@ -14,12 +15,6 @@ export interface TaskFormValues {
   priority: TaskPriority;
 }
 
-const taskValidationSchema: yup.ObjectSchema<TaskFormValues> = yup.object({
-  title: yup.string().trim().required('Title is required').min(3, 'Title must be at least 3 characters').max(80, 'Title can have up to 80 characters'),
-  description: yup.string().trim().required('Description is required').max(300, 'Description can have up to 300 characters'),
-  priority: yup.mixed<TaskPriority>().oneOf(TASK_PRIORITIES).required('Priority is required'),
-});
-
 interface TaskFormProps {
   defaultValues: TaskFormValues;
   submitLabel: string;
@@ -29,6 +24,26 @@ interface TaskFormProps {
 
 const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: TaskFormProps) => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
+
+  const taskValidationSchema: yup.ObjectSchema<TaskFormValues> = useMemo(
+    () =>
+      yup.object({
+        title: yup
+          .string()
+          .trim()
+          .required(t('form.validation.titleRequired'))
+          .min(3, t('form.validation.titleMin'))
+          .max(80, t('form.validation.titleMax')),
+        description: yup
+          .string()
+          .trim()
+          .required(t('form.validation.descriptionRequired'))
+          .max(300, t('form.validation.descriptionMax')),
+        priority: yup.mixed<TaskPriority>().oneOf(TASK_PRIORITIES).required(t('form.validation.priorityRequired')),
+      }),
+    [t],
+  );
 
   const {
     control,
@@ -42,7 +57,7 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
 
   return (
     <View style={styles.formContainer}>
-      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Title</Text>
+      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.title')}</Text>
       <Controller
         control={control}
         name="title"
@@ -51,7 +66,7 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
-            placeholder="Patient report follow-up"
+            placeholder={t('common.placeholders.titleExample')}
             placeholderTextColor={appTheme.colors.textSecondary}
             style={[
               styles.input,
@@ -67,7 +82,7 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
       />
       {errors.title ? <Text style={[styles.errorText, { color: appTheme.colors.danger }]}>{errors.title.message}</Text> : null}
 
-      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Description</Text>
+      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.description')}</Text>
       <Controller
         control={control}
         name="description"
@@ -79,7 +94,7 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
             multiline
             numberOfLines={4}
             textAlignVertical="top"
-            placeholder="Add context, patient notes, and follow-up details"
+            placeholder={t('common.placeholders.descriptionExample')}
             placeholderTextColor={appTheme.colors.textSecondary}
             style={[
               styles.input,
@@ -98,12 +113,17 @@ const TaskForm = ({ defaultValues, submitLabel, onSubmit, loading = false }: Tas
         <Text style={[styles.errorText, { color: appTheme.colors.danger }]}>{errors.description.message}</Text>
       ) : null}
 
-      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Priority</Text>
+      <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.priority')}</Text>
       <Controller
         control={control}
         name="priority"
         render={({ field: { value, onChange } }) => (
-          <SegmentedControl options={TASK_PRIORITIES} value={value} onChange={onChange} />
+          <SegmentedControl
+            options={TASK_PRIORITIES}
+            value={value}
+            onChange={onChange}
+            getLabel={option => t(`common.priority.${option.toLowerCase()}`)}
+          />
         )}
       />
       {errors.priority ? (

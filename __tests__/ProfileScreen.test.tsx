@@ -68,15 +68,25 @@ describe('ProfileScreen appearance settings', () => {
       );
     });
 
-    const latestCall = segmentedControl.mock.calls[segmentedControl.mock.calls.length - 1];
-    expect(latestCall).toBeDefined();
+    const themeControlCall = segmentedControl.mock.calls.find(call => {
+      const options = call?.[0]?.options as unknown;
 
-    const controlProps = latestCall?.[0] as {
-      onChange: (value: 'System' | 'Light' | 'Dark') => void;
+      return (
+        Array.isArray(options) &&
+        options.length === 3 &&
+        options[0] === 'system' &&
+        options[1] === 'light' &&
+        options[2] === 'dark'
+      );
+    });
+    expect(themeControlCall).toBeDefined();
+
+    const controlProps = themeControlCall?.[0] as {
+      onChange: (value: 'system' | 'light' | 'dark') => void;
     };
 
     await ReactTestRenderer.act(async () => {
-      controlProps.onChange('Dark');
+      controlProps.onChange('dark');
       await Promise.resolve();
     });
 
@@ -84,6 +94,54 @@ describe('ProfileScreen appearance settings', () => {
     expect(AsyncStorage.setItem).toHaveBeenCalledWith(
       STORAGE_KEYS.THEME_MODE,
       JSON.stringify('dark'),
+    );
+  });
+
+  test('updates and persists app language from appearance control', async () => {
+    const store = createStore();
+    const segmentedControl = jest.requireMock('../src/components/SegmentedControl') as jest.Mock;
+
+    await ReactTestRenderer.act(async () => {
+      ReactTestRenderer.create(
+        <Provider store={store}>
+          <SafeAreaProvider
+            initialMetrics={{
+              frame: { x: 0, y: 0, width: 375, height: 812 },
+              insets: { top: 0, right: 0, bottom: 0, left: 0 },
+            }}
+          >
+            <ProfileScreen />
+          </SafeAreaProvider>
+        </Provider>,
+      );
+    });
+
+    const languageControlCall = segmentedControl.mock.calls.find(call => {
+      const options = call?.[0]?.options as unknown;
+
+      return (
+        Array.isArray(options) &&
+        options.length === 3 &&
+        options[0] === 'en' &&
+        options[1] === 'si' &&
+        options[2] === 'ta'
+      );
+    });
+    expect(languageControlCall).toBeDefined();
+
+    const controlProps = languageControlCall?.[0] as {
+      onChange: (value: 'en' | 'si' | 'ta') => void;
+    };
+
+    await ReactTestRenderer.act(async () => {
+      controlProps.onChange('si');
+      await Promise.resolve();
+    });
+
+    expect(store.getState().preferences.language).toBe('si');
+    expect(AsyncStorage.setItem).toHaveBeenCalledWith(
+      STORAGE_KEYS.APP_LANGUAGE,
+      JSON.stringify('si'),
     );
   });
 });

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import RootNavigator from './src/navigation/RootNavigator';
+import './src/i18n';
 import { store } from './src/store';
 
 const App = () => {

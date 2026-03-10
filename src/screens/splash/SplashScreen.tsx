@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../../hooks/useAppTheme';
 import type { RootStackParamList } from '../../navigation/types';
@@ -13,6 +14,7 @@ const SplashScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Splash'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   useEffect(() => {
     let isMounted = true;
@@ -70,8 +72,10 @@ const SplashScreen = () => {
       >
         <Text style={[styles.logoText, { color: appTheme.colors.primary }]}>M</Text>
       </View>
-      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>MediTask Pro</Text>
-      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Smart task workflow for medical professionals</Text>
+      <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('common.appName')}</Text>
+      <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>
+        {t('splash.subtitle')}
+      </Text>
       <ActivityIndicator size="large" color={appTheme.colors.primary} style={styles.loader} />
     </View>
   );

@@ -3,13 +3,15 @@ import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, Text
 import { useNavigation } from '@react-navigation/native';
 import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 
 import ScreenContainer from '../../components/ScreenContainer';
 import SegmentedControl from '../../components/SegmentedControl';
 import { useAppTheme } from '../../hooks/useAppTheme';
+import { APP_LANGUAGES, type AppLanguage } from '../../i18n/resources';
 import type { MainTabParamList, RootStackParamList } from '../../navigation/types';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setThemeMode, type ThemeMode } from '../../store/preferencesSlice';
+import { setAppLanguage, setThemeMode, THEME_MODES, type ThemeMode } from '../../store/preferencesSlice';
 import {
   selectCurrentUser,
   selectPreferencesState,
@@ -22,35 +24,20 @@ import { clearAllTasksData, refreshTasks } from '../../store/tasksSlice';
 import { formatSyncTime } from '../../utils/dateTime';
 import { showToast } from '../../utils/toast';
 
-type ThemeOption = 'System' | 'Light' | 'Dark';
-
-const THEME_OPTIONS: readonly ThemeOption[] = ['System', 'Light', 'Dark'];
-
-const THEME_OPTION_TO_MODE: Record<ThemeOption, ThemeMode> = {
-  System: 'system',
-  Light: 'light',
-  Dark: 'dark',
-};
-
-const THEME_MODE_TO_OPTION: Record<ThemeMode, ThemeOption> = {
-  system: 'System',
-  light: 'Light',
-  dark: 'Dark',
-};
-
 const ProfileScreen = () => {
   const navigation = useNavigation<BottomTabNavigationProp<MainTabParamList, 'Profile'>>();
   const dispatch = useAppDispatch();
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const { queue, lastSyncedAt, refreshing, isOffline } = useAppSelector(selectTasksState);
-  const { themeMode, saving: savingPreferences } = useAppSelector(selectPreferencesState);
+  const { themeMode, language, saving: savingPreferences } = useAppSelector(selectPreferencesState);
   const { totalCount, completedCount } = useAppSelector(selectTaskMetrics);
   const currentUser = useAppSelector(selectCurrentUser);
   const { saving } = useAppSelector(selectSessionState);
 
-  const displayName = currentUser?.fullName ?? 'Medical Professional';
-  const userEmail = currentUser?.email ?? 'No email on file';
+  const displayName = currentUser?.fullName ?? t('common.misc.medicalProfessional');
+  const userEmail = currentUser?.email ?? t('common.misc.noEmailOnFile');
 
   const [draftName, setDraftName] = useState(displayName);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -60,39 +47,63 @@ const ProfileScreen = () => {
   }, [displayName]);
 
   const avatarInitial = useMemo(() => displayName.trim().charAt(0).toUpperCase() || 'M', [displayName]);
-  const selectedThemeOption = THEME_MODE_TO_OPTION[themeMode];
 
   const handleManualSync = async () => {
     const resultAction = await dispatch(refreshTasks());
 
     if (refreshTasks.fulfilled.match(resultAction) && resultAction.payload.infoMessage) {
-      showToast(resultAction.payload.infoMessage);
+      showToast(t(resultAction.payload.infoMessage, { defaultValue: resultAction.payload.infoMessage }));
       return;
     }
 
     if (refreshTasks.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Sync failed');
+      showToast(t(resultAction.payload ?? 'messages.syncFailed', { defaultValue: t('messages.syncFailed') }));
       return;
     }
 
-    showToast('Sync completed.');
+    showToast(t('messages.syncCompleted'));
   };
 
-  const handleThemeModeChange = async (option: ThemeOption) => {
-    const nextThemeMode = THEME_OPTION_TO_MODE[option];
-
-    if (nextThemeMode === themeMode) {
+  const handleThemeModeChange = async (mode: ThemeMode) => {
+    if (mode === themeMode) {
       return;
     }
 
-    const resultAction = await dispatch(setThemeMode(nextThemeMode));
+    const resultAction = await dispatch(setThemeMode(mode));
 
     if (setThemeMode.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Unable to update theme preference.');
+      showToast(t(resultAction.payload ?? 'messages.themeUpdateFailed', { defaultValue: t('messages.themeUpdateFailed') }));
       return;
     }
 
-    showToast(`Theme set to ${option}.`);
+    showToast(
+      t('messages.themeUpdated', {
+        mode: t(`common.theme.${mode}`),
+      }),
+    );
+  };
+
+  const handleLanguageChange = async (nextLanguage: AppLanguage) => {
+    if (nextLanguage === language) {
+      return;
+    }
+
+    const resultAction = await dispatch(setAppLanguage(nextLanguage));
+
+    if (setAppLanguage.rejected.match(resultAction)) {
+      showToast(
+        t(resultAction.payload ?? 'messages.languageUpdateFailed', {
+          defaultValue: t('messages.languageUpdateFailed'),
+        }),
+      );
+      return;
+    }
+
+    showToast(
+      t('messages.languageUpdated', {
+        language: t(`common.language.${nextLanguage}`),
+      }),
+    );
   };
 
   const handleSaveName = async () => {
@@ -106,11 +117,15 @@ const ProfileScreen = () => {
     const resultAction = await dispatch(updateSessionName(normalizedName));
 
     if (updateSessionName.rejected.match(resultAction)) {
-      showToast(resultAction.payload ?? 'Unable to update your display name.');
+      showToast(
+        t(resultAction.payload ?? 'messages.displayNameUpdateFailed', {
+          defaultValue: t('messages.displayNameUpdateFailed'),
+        }),
+      );
       return;
     }
 
-    showToast('Display name updated.');
+    showToast(t('messages.displayNameUpdated'));
     setIsEditingName(false);
   };
 
@@ -119,54 +134,60 @@ const ProfileScreen = () => {
     const signOutAction = await dispatch(signOutSession());
 
     if (signOutSession.rejected.match(signOutAction)) {
-      showToast(signOutAction.payload ?? 'Sign out failed. Please try again.');
+      showToast(t(signOutAction.payload ?? 'messages.signOutFailed', { defaultValue: t('messages.signOutFailed') }));
       return;
     }
 
     if (clearAllTasksData.rejected.match(clearTasksAction)) {
-      showToast('Signed out. Local task cache was not fully cleared.');
+      showToast(t('messages.signedOutCacheWarning'));
     }
 
     const rootNavigation = navigation.getParent<NativeStackNavigationProp<RootStackParamList>>();
 
     if (!rootNavigation) {
-      showToast('Navigation is not ready.');
+      showToast(t('messages.navigationNotReady'));
       return;
     }
 
     rootNavigation.replace('Auth');
-    showToast('Signed out successfully.');
+    showToast(t('messages.signedOutSuccess'));
   };
 
   const handleSaveNamePress = () => {
     handleSaveName().catch(() => {
-      showToast('Unable to update your display name.');
+      showToast(t('messages.displayNameUpdateFailed'));
     });
   };
 
-  const handleThemeModePress = (option: ThemeOption) => {
-    handleThemeModeChange(option).catch(() => {
-      showToast('Unable to update theme preference.');
+  const handleThemeModePress = (mode: ThemeMode) => {
+    handleThemeModeChange(mode).catch(() => {
+      showToast(t('messages.themeUpdateFailed'));
+    });
+  };
+
+  const handleLanguagePress = (nextLanguage: AppLanguage) => {
+    handleLanguageChange(nextLanguage).catch(() => {
+      showToast(t('messages.languageUpdateFailed'));
     });
   };
 
   const handleConfirmSignOut = () => {
     performSignOut().catch(() => {
-      showToast('Sign out failed. Please try again.');
+      showToast(t('messages.signOutFailed'));
     });
   };
 
   const handleSignOutPress = () => {
     Alert.alert(
-      'Sign out',
-      'You will need to log in again to access MediTask Pro.',
+      t('alerts.signOutTitle'),
+      t('alerts.signOutMessage'),
       [
         {
-          text: 'Cancel',
+          text: t('common.actions.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Sign out',
+          text: t('common.actions.signOut'),
           style: 'destructive',
           onPress: handleConfirmSignOut,
         },
@@ -220,14 +241,14 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>Account</Text>
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Display name</Text>
+          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>{t('profile.account')}</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.displayName')}</Text>
 
           {isEditingName ? (
             <TextInput
               value={draftName}
               onChangeText={setDraftName}
-              placeholder="Enter your display name"
+              placeholder={t('common.placeholders.enterDisplayName')}
               placeholderTextColor={appTheme.colors.textSecondary}
               maxLength={50}
               returnKeyType="done"
@@ -264,7 +285,9 @@ const ProfileScreen = () => {
                     },
                   ]}
                 >
-                  <Text style={[styles.secondaryActionText, { color: appTheme.colors.textPrimary }]}>Cancel</Text>
+                  <Text style={[styles.secondaryActionText, { color: appTheme.colors.textPrimary }]}>
+                    {t('common.actions.cancel')}
+                  </Text>
                 </Pressable>
 
                 <Pressable
@@ -279,7 +302,11 @@ const ProfileScreen = () => {
                     },
                   ]}
                 >
-                  {saving ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.primaryActionText}>Save name</Text>}
+                  {saving ? (
+                    <ActivityIndicator color="#FFFFFF" />
+                  ) : (
+                    <Text style={styles.primaryActionText}>{t('common.actions.saveName')}</Text>
+                  )}
                 </Pressable>
               </>
             ) : (
@@ -294,7 +321,9 @@ const ProfileScreen = () => {
                   },
                 ]}
               >
-                <Text style={[styles.inlineEditText, { color: appTheme.colors.textPrimary }]}>Edit name</Text>
+                <Text style={[styles.inlineEditText, { color: appTheme.colors.textPrimary }]}>
+                  {t('common.actions.editName')}
+                </Text>
               </Pressable>
             )}
           </View>
@@ -310,14 +339,32 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>Appearance</Text>
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Theme mode</Text>
-          <SegmentedControl options={THEME_OPTIONS} value={selectedThemeOption} onChange={handleThemeModePress} />
+          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>{t('profile.appearance')}</Text>
+
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.themeMode')}</Text>
+          <SegmentedControl
+            options={THEME_MODES}
+            value={themeMode}
+            onChange={handleThemeModePress}
+            getLabel={mode => t(`common.theme.${mode}`)}
+          />
 
           <View style={styles.themeStatusRow}>
-            <Text style={[styles.themeStatusText, { color: appTheme.colors.textSecondary }]}>Current mode: {selectedThemeOption}</Text>
+            <Text style={[styles.themeStatusText, { color: appTheme.colors.textSecondary }]}> 
+              {t('common.labels.currentMode')}: {t(`common.theme.${themeMode}`)}
+            </Text>
             {savingPreferences ? <ActivityIndicator size="small" color={appTheme.colors.primary} /> : null}
           </View>
+
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }, styles.languageLabel]}>
+            {t('common.labels.language')}
+          </Text>
+          <SegmentedControl
+            options={APP_LANGUAGES}
+            value={language}
+            onChange={handleLanguagePress}
+            getLabel={lang => t(`common.language.${lang}`)}
+          />
         </View>
 
         <View
@@ -330,32 +377,34 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>Productivity summary</Text>
+          <Text style={[styles.cardTitle, { color: appTheme.colors.textPrimary }]}>{t('profile.productivitySummary')}</Text>
 
           <View style={styles.row}>
-            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Total tasks</Text>
+            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.totalTasks')}</Text>
             <Text style={[styles.value, { color: appTheme.colors.textPrimary }]}>{totalCount}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Completed tasks</Text>
+            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.completedTasks')}</Text>
             <Text style={[styles.value, { color: appTheme.colors.success }]}>{completedCount}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Pending sync changes</Text>
+            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.pendingSyncChanges')}</Text>
             <Text style={[styles.value, { color: appTheme.colors.warning }]}>{queue.length}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Network status</Text>
-            <Text style={[styles.value, { color: isOffline ? appTheme.colors.warning : appTheme.colors.success }]}>
-              {isOffline ? 'Offline' : 'Online'}
+            <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.networkStatus')}</Text>
+            <Text style={[styles.value, { color: isOffline ? appTheme.colors.warning : appTheme.colors.success }]}> 
+              {isOffline ? t('common.network.offline') : t('common.network.online')}
             </Text>
           </View>
 
-          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>Last sync</Text>
-          <Text style={[styles.syncValue, { color: appTheme.colors.textPrimary }]}>{formatSyncTime(lastSyncedAt)}</Text>
+          <Text style={[styles.label, { color: appTheme.colors.textSecondary }]}>{t('common.labels.lastSync')}</Text>
+          <Text style={[styles.syncValue, { color: appTheme.colors.textPrimary }]}> 
+            {formatSyncTime(lastSyncedAt, t('common.misc.notSyncedYet'))}
+          </Text>
         </View>
 
         <Pressable
@@ -370,7 +419,7 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          {refreshing ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.syncButtonText}>Sync now</Text>}
+          {refreshing ? <ActivityIndicator color="#FFFFFF" /> : <Text style={styles.syncButtonText}>{t('common.actions.syncNow')}</Text>}
         </Pressable>
 
         <Pressable
@@ -385,7 +434,7 @@ const ProfileScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.signOutLabel, { color: appTheme.colors.danger }]}>Sign out</Text>
+          <Text style={[styles.signOutLabel, { color: appTheme.colors.danger }]}>{t('common.actions.signOut')}</Text>
         </Pressable>
       </ScrollView>
     </ScreenContainer>
@@ -507,6 +556,9 @@ const styles = StyleSheet.create({
   themeStatusText: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  languageLabel: {
+    marginTop: 14,
   },
   syncValue: {
     marginTop: 4,

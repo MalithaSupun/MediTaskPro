@@ -402,7 +402,7 @@ async function syncTasksState(currentState: PersistedTasksState): Promise<TasksS
     queue: flushedState.queue,
     lastSyncedAt: syncedAt,
     isOffline: false,
-    infoMessage: flushedState.syncedCount > 0 ? 'Offline changes synced successfully.' : null,
+    infoMessage: flushedState.syncedCount > 0 ? 'store.tasks.offlineChangesSynced' : null,
   };
 }
 
@@ -415,7 +415,7 @@ function normalizeErrorMessage(error: unknown): string {
     return error.message;
   }
 
-  return 'Unexpected error';
+  return 'store.tasks.unexpectedError';
 }
 
 export const initializeTasks = createAsyncThunk<TasksSyncPayload, void, { state: SliceThunkState; rejectValue: string }>(
@@ -431,8 +431,8 @@ export const initializeTasks = createAsyncThunk<TasksSyncPayload, void, { state:
           ...persistedState,
           isOffline: true,
           infoMessage: persistedState.queue.length
-            ? 'Offline mode: pending changes will sync automatically.'
-            : 'Offline mode: showing cached tasks.',
+            ? 'store.tasks.offlineModePendingAutoSync'
+            : 'store.tasks.offlineModeShowingCached',
         };
       }
 
@@ -462,8 +462,8 @@ export const refreshTasks = createAsyncThunk<TasksSyncPayload, void, { state: Sl
           ...currentState,
           isOffline: true,
           infoMessage: currentState.queue.length
-            ? 'Still offline. Pending changes are safe.'
-            : 'Still offline. Displaying local tasks.',
+            ? 'store.tasks.stillOfflinePendingSafe'
+            : 'store.tasks.stillOfflineShowingLocal',
         };
       }
 
@@ -483,7 +483,7 @@ export const clearAllTasksData = createAsyncThunk<void, void, { rejectValue: str
       ]);
       return;
     } catch {
-      return rejectWithValue('Unable to clear local task data.');
+      return rejectWithValue('store.tasks.unableClearLocalData');
     }
   },
 );
@@ -511,7 +511,7 @@ export const createTask = createAsyncThunk<TasksSyncPayload, CreateTaskArgs, { s
       return {
         ...nextState,
         isOffline: false,
-        infoMessage: 'Task created successfully.',
+        infoMessage: 'store.tasks.taskCreatedSuccess',
       };
     } catch (error) {
       if (isApiError(error) && error.isNetworkError) {
@@ -531,7 +531,7 @@ export const createTask = createAsyncThunk<TasksSyncPayload, CreateTaskArgs, { s
         return {
           ...nextState,
           isOffline: true,
-          infoMessage: 'Saved offline. Task will sync automatically.',
+          infoMessage: 'store.tasks.taskSavedOffline',
         };
       }
 
@@ -558,7 +558,7 @@ export const updateTask = createAsyncThunk<TasksSyncPayload, UpdateTaskArgs, { s
       return {
         ...nextState,
         isOffline: true,
-        infoMessage: 'Updated locally. Change will sync with server.',
+        infoMessage: 'store.tasks.taskUpdatedLocal',
       };
     }
 
@@ -576,7 +576,7 @@ export const updateTask = createAsyncThunk<TasksSyncPayload, UpdateTaskArgs, { s
       return {
         ...nextState,
         isOffline: false,
-        infoMessage: 'Task updated successfully.',
+        infoMessage: 'store.tasks.taskUpdatedSuccess',
       };
     } catch (error) {
       if (isApiError(error) && error.isNetworkError) {
@@ -591,7 +591,7 @@ export const updateTask = createAsyncThunk<TasksSyncPayload, UpdateTaskArgs, { s
         return {
           ...nextState,
           isOffline: true,
-          infoMessage: 'Network unavailable. Update queued for sync.',
+          infoMessage: 'store.tasks.taskUpdateQueued',
         };
       }
 
@@ -617,7 +617,7 @@ export const deleteTaskById = createAsyncThunk<TasksSyncPayload, DeleteTaskArgs,
       return {
         ...nextState,
         isOffline: tasks.isOffline,
-        infoMessage: 'Local task deleted.',
+        infoMessage: 'store.tasks.localTaskDeleted',
       };
     }
 
@@ -635,7 +635,7 @@ export const deleteTaskById = createAsyncThunk<TasksSyncPayload, DeleteTaskArgs,
       return {
         ...nextState,
         isOffline: false,
-        infoMessage: 'Task deleted successfully.',
+        infoMessage: 'store.tasks.taskDeletedSuccess',
       };
     } catch (error) {
       if (isApiError(error) && error.isNetworkError) {
@@ -650,7 +650,7 @@ export const deleteTaskById = createAsyncThunk<TasksSyncPayload, DeleteTaskArgs,
         return {
           ...nextState,
           isOffline: true,
-          infoMessage: 'Delete queued. Will sync when network is back.',
+          infoMessage: 'store.tasks.taskDeleteQueued',
         };
       }
 
@@ -693,7 +693,7 @@ const tasksSlice = createSlice({
       .addCase(initializeTasks.rejected, (state, action) => {
         state.loading = false;
         state.initialized = true;
-        state.error = action.payload ?? action.error.message ?? 'Failed to load tasks';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedLoad';
       })
       .addCase(refreshTasks.pending, state => {
         state.refreshing = true;
@@ -705,7 +705,7 @@ const tasksSlice = createSlice({
       })
       .addCase(refreshTasks.rejected, (state, action) => {
         state.refreshing = false;
-        state.error = action.payload ?? action.error.message ?? 'Failed to refresh tasks';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedRefresh';
       })
       .addCase(clearAllTasksData.pending, state => {
         state.mutating = true;
@@ -716,7 +716,7 @@ const tasksSlice = createSlice({
       })
       .addCase(clearAllTasksData.rejected, (state, action) => {
         state.mutating = false;
-        state.error = action.payload ?? action.error.message ?? 'Failed to clear local task data';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedClear';
       })
       .addCase(createTask.pending, state => {
         state.mutating = true;
@@ -728,7 +728,7 @@ const tasksSlice = createSlice({
       })
       .addCase(createTask.rejected, (state, action) => {
         state.mutating = false;
-        state.error = action.payload ?? action.error.message ?? 'Failed to create task';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedCreate';
       })
       .addCase(updateTask.pending, state => {
         state.mutating = true;
@@ -740,7 +740,7 @@ const tasksSlice = createSlice({
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.mutating = false;
-        state.error = action.payload ?? action.error.message ?? 'Failed to update task';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedUpdate';
       })
       .addCase(deleteTaskById.pending, state => {
         state.mutating = true;
@@ -752,7 +752,7 @@ const tasksSlice = createSlice({
       })
       .addCase(deleteTaskById.rejected, (state, action) => {
         state.mutating = false;
-        state.error = action.payload ?? action.error.message ?? 'Failed to delete task';
+        state.error = action.payload ?? action.error.message ?? 'store.tasks.failedDelete';
       });
   },
 });

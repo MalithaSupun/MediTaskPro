@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import EmptyState from '../../components/EmptyState';
 import ProgressBar from '../../components/ProgressBar';
@@ -15,6 +16,7 @@ import { formatSyncTime } from '../../utils/dateTime';
 
 const AnalyticsScreen = () => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   const taskMetrics = useAppSelector(selectTaskMetrics);
   const priorityMetrics = useAppSelector(selectPriorityMetrics);
@@ -24,23 +26,23 @@ const AnalyticsScreen = () => {
 
   const priorityData = useMemo(
     () => [
-      { label: 'High', count: priorityMetrics.highPriority, color: '#D35C4A' },
-      { label: 'Medium', count: priorityMetrics.mediumPriority, color: '#D38D2E' },
-      { label: 'Low', count: priorityMetrics.lowPriority, color: '#2E9D6D' },
+      { label: t('common.priority.high'), count: priorityMetrics.highPriority, color: '#D35C4A' },
+      { label: t('common.priority.medium'), count: priorityMetrics.mediumPriority, color: '#D38D2E' },
+      { label: t('common.priority.low'), count: priorityMetrics.lowPriority, color: '#2E9D6D' },
     ],
-    [priorityMetrics.highPriority, priorityMetrics.lowPriority, priorityMetrics.mediumPriority],
+    [priorityMetrics.highPriority, priorityMetrics.lowPriority, priorityMetrics.mediumPriority, t],
   );
 
   return (
     <ScreenContainer>
       <ScrollView contentContainerStyle={[styles.content, { padding: appTheme.spacing.lg }]}> 
-        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>Productivity Analytics</Text>
-        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>Track completion trends and workload balance.</Text>
+        <Text style={[styles.title, { color: appTheme.colors.textPrimary }]}>{t('analytics.title')}</Text>
+        <Text style={[styles.subtitle, { color: appTheme.colors.textSecondary }]}>{t('analytics.subtitle')}</Text>
 
         {!totalTasks ? (
           <EmptyState
-            title="No data available yet"
-            subtitle="Create tasks and mark them completed to generate analytics."
+            title={t('analytics.noDataTitle')}
+            subtitle={t('analytics.noDataSubtitle')}
           />
         ) : (
           <>
@@ -54,21 +56,29 @@ const AnalyticsScreen = () => {
                 },
               ]}
             >
-              <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>Completion Progress</Text>
+              <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>
+                {t('analytics.completionProgress')}
+              </Text>
               <Text style={[styles.bigMetric, { color: appTheme.colors.primary }]}>{taskMetrics.completionRate}%</Text>
               <ProgressBar progress={taskMetrics.completionRate} height={12} />
 
               <View style={styles.metricRow}>
                 <View style={styles.metricBox}>
-                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Completed</Text>
+                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>
+                    {t('common.labels.completed')}
+                  </Text>
                   <Text style={[styles.metricValue, { color: appTheme.colors.success }]}>{taskMetrics.completedCount}</Text>
                 </View>
                 <View style={styles.metricBox}>
-                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Pending</Text>
+                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>
+                    {t('common.labels.pending')}
+                  </Text>
                   <Text style={[styles.metricValue, { color: appTheme.colors.warning }]}>{taskMetrics.pendingCount}</Text>
                 </View>
                 <View style={styles.metricBox}>
-                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>Total</Text>
+                  <Text style={[styles.metricLabel, { color: appTheme.colors.textSecondary }]}>
+                    {t('common.labels.total')}
+                  </Text>
                   <Text style={[styles.metricValue, { color: appTheme.colors.textPrimary }]}>{taskMetrics.totalCount}</Text>
                 </View>
               </View>
@@ -84,7 +94,9 @@ const AnalyticsScreen = () => {
                 },
               ]}
             >
-              <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>Priority Distribution</Text>
+              <Text style={[styles.sectionTitle, { color: appTheme.colors.textPrimary }]}>
+                {t('analytics.priorityDistribution')}
+              </Text>
 
               {priorityData.map(item => {
                 const percentage = totalTasks ? Math.round((item.count / totalTasks) * 100) : 0;
@@ -134,9 +146,15 @@ const AnalyticsScreen = () => {
             },
           ]}
         >
-          <Text style={[styles.metaLabel, { color: appTheme.colors.textSecondary }]}>Last synced</Text>
-          <Text style={[styles.metaValue, { color: appTheme.colors.textPrimary }]}>{formatSyncTime(lastSyncedAt)}</Text>
-          <Text style={[styles.metaLabel, { color: appTheme.colors.textSecondary }]}>Pending sync changes</Text>
+          <Text style={[styles.metaLabel, { color: appTheme.colors.textSecondary }]}>
+            {t('common.labels.lastSynced')}
+          </Text>
+          <Text style={[styles.metaValue, { color: appTheme.colors.textPrimary }]}>
+            {formatSyncTime(lastSyncedAt, t('common.misc.notSyncedYet'))}
+          </Text>
+          <Text style={[styles.metaLabel, { color: appTheme.colors.textSecondary }]}>
+            {t('common.labels.pendingSyncChanges')}
+          </Text>
           <Text style={[styles.metaValue, { color: appTheme.colors.textPrimary }]}>{queue.length}</Text>
         </View>
       </ScrollView>

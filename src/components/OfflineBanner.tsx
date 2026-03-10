@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useAppTheme } from '../hooks/useAppTheme';
 
@@ -9,6 +10,7 @@ interface OfflineBannerProps {
 
 const OfflineBanner = ({ queueCount }: OfflineBannerProps) => {
   const { appTheme } = useAppTheme();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -21,9 +23,16 @@ const OfflineBanner = ({ queueCount }: OfflineBannerProps) => {
         },
       ]}
     >
-      <Text style={[styles.text, { color: appTheme.colors.textPrimary }]}>Offline mode active.</Text>
+      <Text style={[styles.text, { color: appTheme.colors.textPrimary }]}>
+        {t('store.tasks.offlineModeActive', { defaultValue: 'Offline mode active.' })}
+      </Text>
       <Text style={[styles.text, { color: appTheme.colors.textSecondary }]}>
-        {queueCount ? `${queueCount} change(s) waiting to sync.` : 'Showing cached tasks.'}
+        {queueCount
+          ? t('store.tasks.queuedChangesWaiting', {
+              count: queueCount,
+              defaultValue: `${queueCount} change(s) waiting to sync.`,
+            })
+          : t('store.tasks.offlineModeShowingCached')}
       </Text>
     </View>
   );
