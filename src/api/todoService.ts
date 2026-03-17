@@ -27,7 +27,7 @@ function normalizePriority(value: string | undefined): TaskPriority {
 
   const normalized = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 
-  return TASK_PRIORITIES.includes(normalized as TaskPriority)
+  return TASK_PRIORITIES.indexOf(normalized as TaskPriority) !== -1
     ? (normalized as TaskPriority)
     : 'Low';
 }
@@ -39,15 +39,17 @@ function normalizeStatus(value: string | undefined): TaskStatus {
 
   const normalized = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 
-  return TASK_STATUSES.includes(normalized as TaskStatus)
+  return TASK_STATUSES.indexOf(normalized as TaskStatus) !== -1
     ? (normalized as TaskStatus)
     : 'Pending';
 }
 
 function toLocalDateInputValue(date: Date): string {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const monthValue = date.getMonth() + 1;
+  const dayValue = date.getDate();
+  const month = monthValue < 10 ? `0${monthValue}` : String(monthValue);
+  const day = dayValue < 10 ? `0${dayValue}` : String(dayValue);
 
   return `${year}-${month}-${day}`;
 }
@@ -62,14 +64,14 @@ function normalizeDueDate(value: string | undefined, fallbackIso: string): strin
   if (normalized) {
     const parsedInputDate = new Date(normalized);
 
-    if (!Number.isNaN(parsedInputDate.getTime())) {
+    if (!isNaN(parsedInputDate.getTime())) {
       return toLocalDateInputValue(parsedInputDate);
     }
   }
 
   const fallbackDate = new Date(fallbackIso);
 
-  if (Number.isNaN(fallbackDate.getTime())) {
+  if (isNaN(fallbackDate.getTime())) {
     return toLocalDateInputValue(new Date());
   }
 
@@ -119,26 +121,30 @@ function buildApiPayload(payload: TaskInput & { status?: TaskStatus } | TaskUpda
   return data;
 }
 
-export async function getTodos(): Promise<Task[]> {
-  const response = await axiosInstance.get<ApiTodo[]>('/todo');
-  return response.data.map(normalizeTask);
+export function getTodos(): Promise<Task[]> {
+  return axiosInstance
+    .get<ApiTodo[]>('/todo')
+    .then(response => response.data.map(normalizeTask));
 }
 
-export async function getTodoById(id: string): Promise<Task> {
-  const response = await axiosInstance.get<ApiTodo>(`/todo/${id}`);
-  return normalizeTask(response.data);
+export function getTodoById(id: string): Promise<Task> {
+  return axiosInstance
+    .get<ApiTodo>(`/todo/${id}`)
+    .then(response => normalizeTask(response.data));
 }
 
-export async function createTodo(payload: TaskInput & { status: TaskStatus }): Promise<Task> {
-  const response = await axiosInstance.post<ApiTodo>('/todo', buildApiPayload(payload));
-  return normalizeTask(response.data);
+export function createTodo(payload: TaskInput & { status: TaskStatus }): Promise<Task> {
+  return axiosInstance
+    .post<ApiTodo>('/todo', buildApiPayload(payload))
+    .then(response => normalizeTask(response.data));
 }
 
-export async function updateTodo(id: string, payload: TaskUpdateInput): Promise<Task> {
-  const response = await axiosInstance.put<ApiTodo>(`/todo/${id}`, buildApiPayload(payload));
-  return normalizeTask(response.data);
+export function updateTodo(id: string, payload: TaskUpdateInput): Promise<Task> {
+  return axiosInstance
+    .put<ApiTodo>(`/todo/${id}`, buildApiPayload(payload))
+    .then(response => normalizeTask(response.data));
 }
 
-export async function deleteTodo(id: string): Promise<void> {
-  await axiosInstance.delete(`/todo/${id}`);
+export function deleteTodo(id: string): Promise<void> {
+  return axiosInstance.delete(`/todo/${id}`).then(() => undefined);
 }

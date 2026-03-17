@@ -13,7 +13,9 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   response => response,
-  error => Promise.reject(toApiError(error)),
+  error => {
+    throw toApiError(error);
+  },
 );
 
 export function toApiError(error: unknown): ApiError {

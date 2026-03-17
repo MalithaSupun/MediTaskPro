@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 import { useNavigation, type NavigationProp, type ParamListBase } from '@react-navigation/native';
 
